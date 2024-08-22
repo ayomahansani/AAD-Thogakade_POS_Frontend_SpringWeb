@@ -1,7 +1,10 @@
 // import array
 import {customers, items} from "../db/db.js";
 
+
 var customerRecordIndex;
+
+
 
 // -------------------------- The start - customer table loading --------------------------
 export function loadCustomerTable() {
@@ -221,14 +224,6 @@ $("#customer-update").on('click', () => {
 
     if(customerValidated) {
 
-        // Check for duplicate customer IDs
-        if (isDuplicateCustomerId(idOfCustomer)) {
-
-            // Show error message for duplicate customer ID
-            showErrorAlert("Customer ID already exists. Please enter a different ID.");
-
-        } else {
-
             // create an object - Object Literal
             let customer = {
                 id: idOfCustomer,
@@ -257,7 +252,7 @@ $("#customer-update").on('click', () => {
 
                 success : function (results) {
 
-                    // show customer saved pop up
+                    // show customer updated pop up
                     Swal.fire({
                         icon: 'success',
                         title: 'Customer updated successfully!',
@@ -285,10 +280,9 @@ $("#customer-update").on('click', () => {
 
                 error : function (error) {
                     console.log(error)
-                    showErrorAlert('Customer not saved...')
+                    showErrorAlert('Customer not updated...')
                 }
             });
-        }
 
     }
 
@@ -365,11 +359,20 @@ $("#customer-delete").on('click', () => {
     // Ajax with JQuery
 
     $.ajax({
-        url: "http://localhost:8085/customer?id=" + id,
+        url: "http://localhost:8085/customer?id=" + cusId,
         type: "DELETE",
         success : function (results) {
-            console.log(results)
-            alert('Student deleted successfully...')
+
+            // show customer deleted pop up
+            Swal.fire({
+                icon: 'success',
+                title: 'Customer deleted successfully!',
+                showConfirmButton: false,
+                timer: 1500,
+                iconColor: '#4dc94d'
+            });
+
+            // load the table
             loadCustomerTable();
         },
         error : function (error) {

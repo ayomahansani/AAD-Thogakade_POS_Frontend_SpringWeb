@@ -7,6 +7,7 @@ import {loadCustomerTable} from "./customerController.js";
 // import arrays
 import {customers, items} from "../db/db.js";
 
+// display all customers in customer table
 loadCustomerTable();
 
 
