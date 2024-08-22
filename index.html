@@ -2,9 +2,1116 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+
+    <title>Thogakade-POS</title>
+
+    <!--  Linked stylesheets -->
+    <link rel="stylesheet" href="assets/style/normalize-css.css">
+    <link rel="stylesheet" href="assets/style/home_page.css">
+    <link rel="stylesheet" href="assets/style/customer_page.css">
+    <link rel="stylesheet" href="assets/style/item_page.css">
+    <link rel="stylesheet" href="assets/style/order_page.css">
+    <link rel="stylesheet" href="assets/style/login_page.css">
+    <link rel="stylesheet" href="assets/style/register_page.css">
+    <link rel="stylesheet" href="assets/style/logout_page.css">
+
+    <!-- Bootstrap CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Bootstrap Icon-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 </head>
 <body>
+
+<!------------------------ Navbar ------------------------>
+
+<nav id="navbar-section" class="navbar navbar-expand-lg fixed-top">
+
+    <div class="container-fluid">
+
+        <img class="logo" src="assets/icon/icon-navbar_logo.png" alt="">
+
+        <a class="navbar-brand me-auto" href="#">FOOD CORNER</a>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">FOOD CORNER</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+
+                    <li class="nav-item">
+                        <span class="nav-link mx-lg-2 active" id="nav-home">Home</span>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link mx-lg-2" id="nav-customers">Customers</span>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link mx-lg-2" id="nav-items">Items</span>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link mx-lg-2" id="nav-orders">Orders</span>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Buttons -->
+        <span id="btn-login" class="login-button">
+      Sign In
+      <span class="buttons"><i class="bi bi-person-bounding-box"></i></span>
+    </span>
+        <span id="btn-register" class="login-button">
+      Sign Up
+      <span class="buttons"><i class="bi bi-person-plus-fill"></i></span>
+    </span>
+        <span id="btn-logout" class="login-button">
+      Log Out
+      <span class="buttons"><i class="bi bi-fast-forward-circle-fill"></i></span>
+    </span>
+        <!-- End Buttons -->
+
+        <!-- Navbar Toggler -->
+        <button class="navbar-toggler " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- End Navbar Toggler -->
+
+    </div>
+
+</nav>
+
+<!------------------------ End Navbar ------------------------>
+
+
+<!------------------------ Sections ------------------------>
+
+<!-- Home Section -->
+<section id="home-section">
+
+    <!-- Background Image -->
+    <img class="home-image" src="assets/img/home-background-image.jpg" alt="home page image">
+    <!-- End Background Image -->
+
+    <!-- Card Section -->
+    <div class="container text-center card-set">
+
+        <div class="row">
+
+            <!-- Customer Card -->
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 pb-4">
+                <div class="card border-0">
+                    <div class="card-body pb-4">
+                        <img src="assets/icon/icon-home_page_customers.png" class="card-img-top" alt="...">
+                        <p class="card-title mt-3 mb-3">Customers</p>
+                        <h4 id="customer-count" class="mb-5">0</h4>
+                        <span id="go-customer-page" class="btn btn-warning my-btn mb-3">
+              More
+              <span><i class="bi bi-three-dots-vertical"></i></span>
+            </span>
+                    </div>
+                </div>
+            </div>
+            <!-- End Customer Card -->
+
+            <!-- Item Card -->
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 pb-4">
+                <div class="card border-0">
+                    <div class="card-body pb-4">
+                        <img src="assets/icon/icon-home_page_items.png" class="card-img-top" alt="...">
+                        <p class="card-title mt-3 mb-3">Items</p>
+                        <h4 id="item-count" class="mb-5">0</h4>
+                        <span id="go-item-page" class="btn btn-warning my-btn mb-3">
+              More
+              <span><i class="bi bi-three-dots-vertical"></i></span>
+            </span>
+                    </div>
+                </div>
+            </div>
+            <!-- End Item Card -->
+
+            <!-- Orders Card -->
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 pb-4">
+                <div class="card border-0">
+                    <div class="card-body pb-4">
+                        <img src="assets/icon/icon-home_page_orders.png" class="card-img-top" alt="...">
+                        <p class="card-title mt-3 mb-3">Orders</p>
+                        <h4 id="orders-count" class="mb-5">0</h4>
+                        <span id="go-orders-page" class="btn btn-warning my-btn mb-3">
+              More
+              <span><i class="bi bi-three-dots-vertical"></i></span>
+            </span>
+                    </div>
+                </div>
+            </div>
+            <!-- End Orders Card -->
+
+        </div>
+
+    </div>
+    <!-- End Card Section -->
+
+</section>
+<!-- End Home Section -->
+
+
+<!-- Customer Management Section -->
+<section id="customer-section" class="hero-section">
+
+    <!-- Background Image -->
+    <img class="home-image " src="assets/img/home-background-image.jpg" alt="">
+    <!-- End Background Image -->
+
+    <!-- Title Section -->
+    <div class="main-title me-auto">
+        <img class="customerImg" src="assets/icon/icon-customer_page_title.png" alt="">
+        <h6 class="title">Customers</h6>
+    </div>
+    <!-- End Title Section -->
+
+    <!-- Main Section -->
+    <div class="main-section">
+
+        <!-- up section -->
+        <div class="search-customer">
+
+            <form class="row">
+
+                <!-- customer search -->
+                <div class="col-8 col-sm-6 col-md-4 col-lg-4 pb-4">
+                    <label for="searchCustomer" class="form-label fw-semibold">
+                        Search Customer
+                    </label>
+                    <input type="search" class="form-control search-input" id="searchCustomer" placeholder="Input ID / Name Here">
+                </div>
+                <div class="col-4 col-sm-6 col-md-3 col-lg-3 pb-4">
+                    <button type="button" class="btn btn-warning search-btn" id="customer-search-btn" data-bs-toggle="modal" data-bs-target="#customerDetailsModal">
+                        Search
+                        <span class="search"><i class="bi bi-search"></i></span>
+                    </button>
+                </div>
+                <!-- end customer search -->
+
+                <!-- buttons -->
+                <div class="col-6 col-sm-4 col-md-2 col-lg-2 pb-1">
+                    <a href="" id="newCusBtn" role="button" class="btn" data-bs-toggle="modal" data-bs-target="#newCustomerModal">
+                        <span class="add-to-cart"><i class="bi bi-plus-circle-fill"></i></span>
+                        New Customer
+                    </a>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 col-lg-2 pb-1">
+                    <a href="" id="viewAllCus" role="button" class="btn" data-bs-toggle="modal" data-bs-target="#viewAllCustomerModal">
+                        <span class="view"><i class="bi bi-eye-fill"></i></span>
+                        View All Customers
+                    </a>
+                </div>
+                <!-- end buttons -->
+
+                <!-- right image -->
+                <div class="col-12 col-sm-4 col-md-1 col-lg-1 pb-1">
+                    <img src="assets/icon/icon-customer_page_customers.png" class="customer-page-photo" alt="customers photo">
+                </div>
+                <!-- end right image -->
+
+            </form>
+
+        </div>
+        <!-- end up section -->
+
+        <!-- customer table -->
+        <div class="customer-table">
+
+            <div class="scrollable">
+
+                <table class="table table-warning table-striped table-bordered border-dark table-hover table-sm">
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Contact</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="customer-tbl-tbody" class="table-group-divider">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+        <!-- end customer table -->
+
+    </div>
+    <!-- End Main Section -->
+
+</section>
+<!-- End Customer Management Section -->
+
+
+<!-- Item Management Section -->
+<section id="item-section" class="hero-section">
+
+    <!-- Background Image -->
+    <img class="home-image " src="assets/img/home-background-image.jpg" alt="background-image">
+    <!-- End Background Image -->
+
+    <!-- Title Section -->
+    <div class="main-title me-auto">
+        <img id="itemImg" src="assets/icon/icon-item_page_title.png" alt="item-image">
+        <h6 class="title">Items</h6>
+    </div>
+    <!-- End Title Section -->
+
+    <!-- Main Section -->
+    <div class="main-section">
+
+        <!-- up section -->
+        <div class="search-item">
+
+            <form class="row">
+
+                <!-- item search -->
+                <div class="col-8 col-sm-6 col-md-4 col-lg-4 pb-4">
+                    <label for="searchItem" class="form-label fw-semibold">
+                        Search Item
+                    </label>
+                    <input type="search" class="form-control search-input" id="searchItem" placeholder="Input Code / Name Here">
+                </div>
+                <div class="col-4 col-sm-6 col-md-3 col-lg-3 pb-4">
+                    <button type="button" class="btn btn-warning search-btn" id="item-search-btn" data-bs-toggle="modal" data-bs-target="#itemDetailsModal">
+                        Search
+                        <span class="search"><i class="bi bi-search"></i></span>
+                    </button>
+                </div>
+                <!-- End item search -->
+
+                <!-- buttons -->
+                <div class="col-6 col-sm-4 col-md-2 col-lg-2 pb-1">
+                    <a href="" id="newItemBtn" role="button" class="btn" data-bs-toggle="modal" data-bs-target="#newItemModal">
+                        <span class="add-to-cart mr-3"><i class="bi bi-plus-circle-fill"></i></span>
+                        New Item
+                    </a>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 col-lg-2 pb-1">
+                    <a href="" id="viewAllItem" role="button" class="btn" data-bs-toggle="modal" data-bs-target="#viewAllItemsModal">
+                        <span class="view"><i class="bi bi-eye-fill"></i></span>
+                        View All Items
+                    </a>
+                </div>
+                <!-- end buttons -->
+
+                <!-- right image -->
+                <div class="col-12 col-sm-4 col-md-1 col-lg-1 pb-1">
+                    <img src="assets/icon/icon-item_page_items.png" class="item-page-photo" alt="item-bag-image">
+                </div>
+                <!-- end right image -->
+
+            </form>
+
+        </div>
+        <!-- end up section -->
+
+        <!-- item table -->
+        <div class="item-table">
+
+            <div class="scrollable">
+
+                <table class="table table-warning table-striped table-bordered border-dark table-hover table-sm">
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Code</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="item-tbl-tbody" class="table-group-divider">
+                    <!--<tr>
+                      <th scope="row">I001</th>
+                      <th>Maliban Chocolate Biscuit</th>
+                      <th>Rs: 150.00</th>
+                      <th>30</th>
+                    </tr>
+                    <tr>
+                      <th scope="row">I002</th>
+                      <th>Kirisamba 5kg</th>
+                      <th>Rs: 1200.25</th>
+                      <th>11</th>
+                    </tr>
+                    <tr>
+                      <th scope="row">I003</th>
+                      <th>Sunlight 120g</th>
+                      <th>Rs: 130.00</th>
+                      <th>24</th>
+                    </tr>
+                    <tr>
+                      <th scope="row">I004</th>
+                      <th>White Sugar 500g</th>
+                      <th>Rs: 345.75</th>
+                      <th>23</th>
+                    </tr>
+                    <tr>
+                      <th scope="row">I005</th>
+                      <th>Coca Cola 2l</th>
+                      <th>Rs :560.00</th>
+                      <th>50</th>
+                    </tr>-->
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+        <!-- end item table -->
+
+    </div>
+    <!-- End Main Section -->
+
+</section>
+<!-- End Item Management Section -->
+
+
+<!-- Order Management Section -->
+<section id="order-section" class="hero-section">
+
+    <!-- Background Image -->
+    <img class="home-image" src="assets/img/home-background-image.jpg" alt="background-image">
+    <!-- End Background Image -->
+
+    <!-- Title Section -->
+    <div class="main-title me-auto">
+        <img id="orderImg" src="assets/icon/icon-order_page_title.png" alt="order-image">
+        <h6 id="title">Place Order</h6>
+    </div>
+    <!-- End Title Section -->
+
+    <!-- Main Section -->
+    <div class="main-section">
+
+        <!-- Form Set -->
+        <section id="forms">
+
+            <!-- Invoice Details Form -->
+            <div class="form_div">
+
+                <!-- Title -->
+                <h5 class="div_head">
+                    Invoice Details
+                    <span class="invoice"><i class="bi bi-file-earmark-text-fill"></i></span>
+                </h5>
+                <!-- End Title -->
+
+                <!-- Form Body -->
+                <form class="form">
+
+                    <div class="invoice-phone-type-up">
+                        <div class="up_div">
+                            <div class="form1_set1">
+
+                                <label for="orderId" class="form-label fw-semibold">Order Id :</label>
+                                <input type="text" class="form-control disabled-input" id="orderId" disabled>
+                            </div>
+
+                            <div class="form1_set2">
+
+                                <label for="orderDate" class="form-label fw-semibold">Order Date :</label>
+                                <input type="date" class="form-control disabled-input" id="orderDate">
+
+                            </div>
+                        </div>
+
+                        <div id="mid_div">
+                            <label for="customersIdComboBox" class="form-label fw-semibold">Select Customer :</label>
+                            <select class="form-select search-input" aria-label="Default select example" id="customersIdComboBox">
+                                <!--<option selected>choose customer NIC</option>
+                                <option value="1">200451906783V</option>
+                                <option value="2">199909459879V</option>
+                                <option value="3">200178453425V</option>
+                                <option value="4">200061547786V</option>-->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="down_div">
+                        <div class="form1_set1">
+
+                            <label for="cusId" class="form-label fw-semibold">ID :</label>
+                            <input type="text" class="form-control disabled-input" id="cusId" disabled>
+
+                            <label for="cusAddress" class="form-label fw-semibold">Address :</label>
+                            <input type="text" class="form-control disabled-input" id="cusAddress" disabled>
+
+                        </div>
+
+                        <div class="form1_set2">
+
+                            <label for="cusName" class="form-label fw-semibold">Name :</label>
+                            <input type="text" class="form-control disabled-input" id="cusName" disabled>
+
+                            <label for="cusPhone" class="form-label fw-semibold">Contact :</label>
+                            <input type="text" class="form-control disabled-input" id="cusPhone" disabled>
+
+                        </div>
+                    </div>
+
+                </form>
+                <!-- End Form Body -->
+
+            </div>
+            <!-- End Invoice Details Form -->
+
+            <!-- Select Item Form -->
+            <div class="form_div">
+
+                <!-- Title -->
+                <h5 class="div_head">
+                    Select Item
+                    <span class="selectItem"><i class="bi bi-bookmark-check-fill"></i></span>
+                </h5>
+                <!-- End Title -->
+
+                <!-- Form Body -->
+                <form class="form">
+
+                    <div class="up_div">
+
+                        <div>
+                            <label for="itemsIdComboBox" class="form-label fw-semibold">Select Item :</label>
+                            <select class="form-select search-input" aria-label="Default select example" id="itemsIdComboBox">
+                                <!--<option selected>choose item code &nbsp;&nbsp;&nbsp;&nbsp;</option>
+                                <option value="1">I001</option>
+                                <option value="2">I002</option>
+                                <option value="3">I003</option>
+                                <option value="4">I004</option>-->
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="mid_div">
+
+                        <div class="form2_set1">
+
+                            <label for="itemCode" class="form-label fw-semibold">Code :</label>
+                            <input type="text" class="form-control disabled-input" id="itemCode" disabled>
+
+                            <label for="itemPrice" class="form-label fw-semibold">Unit Price :</label>
+                            <input type="text" class="form-control disabled-input" id="itemPrice" disabled>
+
+                        </div>
+
+                        <div class="form2_set2">
+
+                            <label for="itemName" class="form-label fw-semibold">Name :</label>
+                            <input type="text" class="form-control disabled-input" id="itemName" disabled>
+
+                            <label for="itemQtyOnH" class="form-label fw-semibold">Qty On Hand :</label>
+                            <input type="text" class="form-control disabled-input" id="itemQtyOnH" disabled>
+
+                        </div>
+                    </div>
+
+                    <div class="down_div">
+
+                        <div>
+                            <label for="quantity" class="form-label fw-semibold">Order Quantity :</label>
+                            <input type="text" class="form-control search-input" id="quantity">
+                        </div>
+
+
+                        <button type="button" class="btn btn-warning" id="addBtn" >
+                            <span class="add-to-cart mr-3"><i class="bi bi-plus-circle-fill"></i></span>
+                            Add To Cart
+                        </button>
+
+                    </div>
+
+                </form>
+                <!-- End Form Body -->
+
+            </div>
+            <!-- End Select Item Form -->
+
+            <!-- Total Form -->
+            <div class="form_div total-form">
+
+                <!-- Title -->
+                <h5 class="div_head">
+                    Amount
+                    <span class="calculator"><i class="bi bi-calculator-fill icon-lg"></i></span>
+                </h5>
+                <!-- End Title -->
+
+                <!-- Form Body -->
+                <form class="form">
+
+                    <div class="up_div">
+
+                        <div>
+                            <label for="total" class="form-label fw-semibold">Total :</label>
+                            <input type="text" class="form-control total-input" id="total" disabled>
+                        </div>
+
+                        <div>
+                            <label for="cash" class="form-label fw-semibold">Cash :</label>
+                            <input type="text" class="form-control search-input" id="cash" placeholder="Rs: " min="0">
+                        </div>
+
+                    </div>
+
+                    <div class="mid_div">
+
+                        <div class="form2_set1">
+
+                            <label for="discount" class="form-label fw-semibold">Discount (%) :</label>
+                            <input type="text" class="form-control search-input" id="discount" placeholder="00%" max="100" min="0">
+
+                            <label for="subTotal" class="form-label fw-semibold">Sub Total :</label>
+                            <input type="text" class="form-control sub-total-input" id="subTotal" disabled>
+
+                        </div>
+
+                        <div class="form2_set2">
+                            <label for="balance" class="form-label fw-semibold">Balance :</label>
+                            <input type="text" class="form-control disabled-input" id="balance" disabled>
+                        </div>
+
+                    </div>
+
+                    <div class="down_div">
+
+                        <button type="button" class="btn btn-warning" id="purchaseBtn" >
+                            <span class="purchase"><i class="bi bi-cart-check-fill"></i></span>
+                            Purchase
+                        </button>
+
+                        <a href="" id="viewBtn" role="button" class="btn" data-bs-toggle="modal" data-bs-target="#viewOrderDetailsModal">
+                            <span class="view"><i class="bi bi-eye-fill"></i></span>
+                            View Order History
+                        </a>
+
+                    </div>
+
+                </form>
+                <!-- End Form Body -->
+
+            </div>
+            <!-- End Total Form -->
+
+        </section>
+        <!-- End Form Set -->
+
+        <!-- add to cart table -->
+        <div class="add-to-cart-table">
+
+            <div class="add-to-cart-scrollable">
+
+                <table id="table-add-to-cart" class="table table-warning table-striped table-bordered border-dark table-hover table-sm">
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Item Code</th>
+                        <th scope="col">Item Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="add-to-cart-tbl-tbody" class="table-group-divider">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+        <!-- end add to cart table -->
+
+    </div>
+    <!-- End Main Section -->
+
+</section>
+<!-- End Order Management Section -->
+
+
+<!-- Login Form Section -->
+<section id="login-section">
+
+    <div class="login-background">
+
+        <div class="container">
+
+            <form class="form-group">
+
+                <div class="bg p-5 rounded">
+
+                    <h2 class="text-center">Login</h2>
+
+                    <label for="email" class="form-label mt-5 fw-semibold">Username</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email">
+
+                    <label for="pw" class="form-label mt-3 fw-semibold">Password</label>
+                    <input type="password" class="form-control" id="pw" placeholder="Enter your password">
+                    <p class="mb-5">Forgot password ?</p>
+
+                    <span id="go-home-page" class="form-control btn btn-warning mb-4">Login</span>
+
+                    <div class="form-down">Don't have an account ? <span id="go-register-page">Sign Up</span></div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- End Login Form Section -->
+
+
+<!-- Register Form Section -->
+<section id="register-section">
+
+    <div class="register-background">
+
+        <div class="container">
+
+            <form class="form-group">
+
+                <div class="mb-3 bg p-5 rounded">
+
+                    <h2 class="text-center">Sign Up</h2>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="fn" class="form-label mt-5 fw-semibold">First Name</label>
+                            <input type="text" class="form-control" id="fn" placeholder="First Name">
+                        </div>
+                        <div class="col-6">
+                            <label for="ln" class="form-label mt-5 fw-semibold">Last Name</label>
+                            <input type="text" class="form-control" id="ln" placeholder="Last Name">
+                        </div>
+                    </div>
+
+                    <label for="email1" class="form-label mt-3 fw-semibold">Username</label>
+                    <input type="email" class="form-control" id="email1" placeholder="Enter your email">
+
+                    <label for="pw1" class="form-label mt-3 fw-semibold">Password</label>
+                    <input type="password" class="form-control" id="pw1" placeholder="Enter your password">
+                    <p class="mb-5">Must have at least 4 characters</p>
+
+                    <span id="go-home-page-2" class="form-control btn btn-warning mb-4">Register</span>
+
+                    <div class="form-down">Already have an account ? <span id="go-login-page">Sign In</span></div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- End Register Form Section -->
+
+
+<!-- Logout Page Section -->
+<section id="logout-section">
+
+    <div class="logout">
+        <div>
+            <h2>Thank you for joining us...<br>Have a nice day !</h2>
+        </div>
+    </div>
+
+</section>
+<!-- End Logout Page Section -->
+
+<!------------------------ Sections ------------------------>
+
+
+<!------------------------- Modals -------------------------->
+
+<!-- Search Customer Modal -->
+<div class="modal fade" id="customerDetailsModal" tabindex="-1" aria-labelledby="customerDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 text-center" id="customerDetailsModalLabel">
+
+                </h1>
+                <button id="customer-search-modal-close" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div id="customer-search-modal-body" class="modal-body">
+
+                <form>
+
+                    <div class="mb-3">
+                        <label for="searchedCustomerId" class="form-label fw-semibold">Id</label>
+                        <input type="text" class="form-control disabled-input text-center" id="searchedCustomerId" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="searchedCustomerName" class="form-label fw-semibold">Name</label>
+                        <input type="text" class="form-control disabled-input text-center" id="searchedCustomerName" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="searchedCustomerAddress" class="form-label fw-semibold">Address</label>
+                        <input type="text" class="form-control disabled-input text-center" id="searchedCustomerAddress" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="searchedCustomerPhone" class="form-label fw-semibold">Phone</label>
+                        <input type="text" class="form-control disabled-input text-center" id="searchedCustomerPhone" disabled>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Search Customer Modal -->
+
+
+<!-- Add New Customer Modal -->
+<div class="modal fade" id="newCustomerModal" tabindex="-1" aria-labelledby="newCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 text-center" id="newCustomerModalLabel">
+                    New Customer
+                    <span class="new-customer"><i class="bi bi-person-plus-fill"></i></span>
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <form>
+
+                    <div class="mb-3">
+                        <label for="customerId" class="form-label fw-semibold">Customer Id</label>
+                        <input type="text" class="form-control search-input" id="customerId">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="customerName" class="form-label fw-semibold">Customer Name</label>
+                        <input type="text" class="form-control search-input" id="customerName">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="customerAddress" class="form-label fw-semibold">Customer Address</label>
+                        <input type="text" class="form-control search-input" id="customerAddress">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="customerPhone" class="form-label fw-semibold">Customer Contact</label>
+                        <input type="tel" class="form-control search-input" id="customerPhone">
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" id="customer-save" class="btn btn-warning">
+                    Save
+                    <span><i class="bi bi-save"></i></span>
+                </button>
+
+                <button type="button" id="customer-update" class="btn btn-warning">
+                    Update
+                    <span><i class="bi bi-pencil-square"></i></span>
+                </button>
+
+                <button type="button" id="customer-delete" class="btn btn-warning">
+                    Delete
+                    <span><i class="bi bi-trash3"></i></span>
+                </button>
+
+                <button type="reset" id="customer-clear" class="btn btn-warning">
+                    Clear
+                    <span><i class="bi bi-backspace-reverse"></i></span>
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Add New Customer Modal -->
+
+
+<!-- View All Customer Modal -->
+<div class="modal fade" id="viewAllCustomerModal" tabindex="-1" aria-labelledby="viewAllCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header text-center">
+                <h1 class="modal-title fs-5" id="viewAllCustomerModalLabel">
+                    All Customers
+                    <span class="all-customers"><i class="bi bi-people-fill"></i></span>
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body text-center">
+
+                <table class="table table-warning table-hover table-sm">
+
+                    <tbody id="all-customers-tbl-tbody">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End View All Customer Modal -->
+
+
+<!-- Search item Modal -->
+<div class="modal fade" id="itemDetailsModal" tabindex="-1" aria-labelledby="itemDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 text-center" id="itemDetailsModalLabel">
+
+                </h1>
+                <button id="item-search-modal-close" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div id="item-search-modal-body" class="modal-body">
+
+                <form>
+
+                    <div class="mb-3">
+                        <label for="searchedItemCode" class="form-label fw-semibold">Code</label>
+                        <input type="text" class="form-control disabled-input text-center" id="searchedItemCode" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="searchedItemName" class="form-label fw-semibold">Name</label>
+                        <input type="text" class="form-control disabled-input text-center" id="searchedItemName" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="searchedItemPrice" class="form-label fw-semibold">Price</label>
+                        <input type="text" class="form-control disabled-input text-center" id="searchedItemPrice" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="searchedItemQty" class="form-label fw-semibold">Qty</label>
+                        <input type="text" class="form-control disabled-input text-center" id="searchedItemQty" disabled>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Search item Modal -->
+
+
+<!-- Add New Item Modal -->
+<div class="modal fade" id="newItemModal" tabindex="-1" aria-labelledby="newItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 text-center" id="newItemModalLabel">
+                    New Item
+                    <span class="new-item"><i class="bi bi-bag-plus-fill"></i></span>
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <form>
+
+                    <div class="mb-3">
+                        <label for="codeItem" class="form-label fw-semibold">Item Code</label>
+                        <input type="text" class="form-control search-input" id="codeItem">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nameItem" class="form-label fw-semibold">Item Name</label>
+                        <input type="text" class="form-control search-input" id="nameItem">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="priceItem" class="form-label fw-semibold">Item Price</label>
+                        <input type="text" class="form-control search-input" id="priceItem" placeholder="Rs: ">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="qtyItem" class="form-label fw-semibold">Item Quantity</label>
+                        <input type="text" class="form-control search-input" id="qtyItem">
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" id="item-save" class="btn btn-warning">
+                    Save
+                    <span><i class="bi bi-save"></i></span>
+                </button>
+
+                <button type="button" id="item-update" class="btn btn-warning">
+                    Update
+                    <span><i class="bi bi-pencil-square"></i></span>
+                </button>
+
+                <button type="button" id="item-delete" class="btn btn-warning">
+                    Delete
+                    <span><i class="bi bi-trash3"></i></span>
+                </button>
+
+                <button type="button" id="item-clear" class="btn btn-warning">
+                    Clear
+                    <span><i class="bi bi-backspace-reverse"></i></span>
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Add New Item Modal -->
+
+
+<!-- View All Items Modal -->
+<div class="modal fade" id="viewAllItemsModal" tabindex="-1" aria-labelledby="viewAllItemsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header text-center">
+                <h1 class="modal-title fs-5" id="viewAllItemsModalLabel">
+                    All Items
+                    <span class="all-items"><i class="bi bi-box-seam-fill"></i></span>
+                    <span><i class="bi bi-box-seam-fill"></i></span>
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body text-center">
+
+                <table class="table table-warning table-hover table-sm">
+
+                    <tbody id="all-items-tbl-tbody">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End View All Items Modal -->
+
+
+<!-- View Order History Modal -->
+<div class="modal fade" id="viewOrderDetailsModal" tabindex="-1" aria-labelledby="viewOrderDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 text-center" id="viewOrderDetailsModalLabel">
+                    Order History
+                    <span class="detailsOfOrders"><i class="bi bi-cart4"></i></span>
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <!-- Order Details Table -->
+                <div class="order-table">
+
+                    <table id="table-order-history" class="table table-warning table-striped table-bordered border-dark table-hover table-sm">
+                        <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Customer ID</th>
+                            <th scope="col">Items</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Discount</th>
+                            <th scope="col">Sub Total</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="order-history-tbl-tbody" class="table-group-divider">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+                <!-- End Order Details Table -->
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End View Order History Modal -->
+
+<!------------------------- End Modals -------------------------->
+
+
+
+<!-- import jquery -->
+<script src="assets/lib/jquery-3.7.1.min.js"></script>
+
+<!-- Bootstrap JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<!-- import Sweetalert JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- plug the js files -->
+<script type="module" src="controller/indexController.js"></script>
+<script type="module" src="controller/customerController.js"></script>
+<script type="module" src="controller/itemController.js"></script>
+<script type="module" src="controller/orderController.js"></script>
+<script type="module" src="controller/orderHistoryController.js"></script>
+<script type="module" src="controller/registerController.js"></script>
 
 </body>
 </html>
