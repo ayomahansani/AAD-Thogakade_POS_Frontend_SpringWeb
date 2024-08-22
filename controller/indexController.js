@@ -2,9 +2,12 @@
 import {autoFillCurrentDate} from "./orderController.js";
 import {loadCustomerComboBoxValues} from "./orderController.js";
 import {loadItemComboBoxValues} from "./orderController.js";
+import {loadCustomerTable} from "./customerController.js";
 
 // import arrays
 import {customers, items} from "../db/db.js";
+
+loadCustomerTable();
 
 
 // -------------------------- The start - when click navbar and some buttons --------------------------

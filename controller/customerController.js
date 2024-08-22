@@ -1,15 +1,41 @@
 // import array
 import {customers, items} from "../db/db.js";
 
-
 var customerRecordIndex;
 
-
-
 // -------------------------- The start - customer table loading --------------------------
-function loadCustomerTable() {
+export function loadCustomerTable() {
 
-    $("#customer-tbl-tbody").empty();
+    $.ajax({
+        url : "http://localhost:8085/customer",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success : function (results) {
+            console.log(results)
+            //alert('Get All Data Successfully...')
+
+            // Clear the existing table body
+            $('#customer-tbl-tbody').empty();
+
+            // Iterate over the results and append rows to the table
+            results.forEach(function(customer) {
+                let row = `
+                    <tr>
+                        <td>${customer.id}</td>
+                        <td>${customer.name}</td>
+                        <td>${customer.address}</td>
+                        <td>${customer.phone}</td>
+                    </tr>
+                `;
+                $('#customer-tbl-tbody').append(row);
+            });
+        },
+        error : function (error) {
+            console.log(error)
+            alert('Not Get All Data...')
+        }
+    })
+
+    /*$("#customer-tbl-tbody").empty();
 
     customers.map((item, index) => {
 
@@ -25,7 +51,7 @@ function loadCustomerTable() {
         $("#customer-tbl-tbody").append(record);
         $("#customer-tbl-tbody").css("font-weight", 600);
 
-    });
+    });*/
 }
 // -------------------------- The end - customer table loading --------------------------
 
@@ -134,7 +160,7 @@ $("#customer-save").on('click', () => {
                     });
 
                     // load the table
-                    //loadCustomerTable();
+                    loadCustomerTable();
 
                     // clean the inputs values
                     $("#customerId").val("");
@@ -241,7 +267,7 @@ $("#customer-update").on('click', () => {
                     });
 
                     // load the table
-                    //loadCustomerTable();
+                    loadCustomerTable();
 
                     // clean the inputs values
                     $("#customerId").val("");
@@ -344,7 +370,7 @@ $("#customer-delete").on('click', () => {
         success : function (results) {
             console.log(results)
             alert('Student deleted successfully...')
-            //loadAllStudents();
+            loadCustomerTable();
         },
         error : function (error) {
             console.log(error)
