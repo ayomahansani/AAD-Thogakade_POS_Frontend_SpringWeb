@@ -23,10 +23,10 @@ export function loadCustomerTable() {
             results.forEach(function(customer) {
                 let row = `
                     <tr>
-                        <td>${customer.id}</td>
-                        <td>${customer.name}</td>
-                        <td>${customer.address}</td>
-                        <td>${customer.phone}</td>
+                        <td class="customer-id-value">${customer.id}</td>
+                        <td class="customer-name-value">${customer.name}</td>
+                        <td class="customer-address-value">${customer.address}</td>
+                        <td class="customer-phone-value">${customer.phone}</td>
                     </tr>
                 `;
                 $('#customer-tbl-tbody').append(row);
@@ -71,7 +71,43 @@ autoGenerateCustomerId();
 // -------------------------- The start - auto generate customer id --------------------------
 function autoGenerateCustomerId() {
 
-    var customerLength = customers.length;
+
+    $.ajax({
+        url : "http://localhost:8085/customer",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success : function (results) {
+            console.log(results)
+
+            var customerLength = results.length;
+
+            console.log("Customer length : " + customerLength);
+
+            if(customerLength !== 0 ) {
+
+                var currentCustomerId = results[results.length-1].id;
+                var split = [];
+                split = currentCustomerId.split("C0");
+                var id = parseInt(split[1]);
+                id++;
+                if(id < 10) {
+                    $("#customerId").val("C00" + id);
+                }else{
+                    $("#customerId").val("C0" + id);
+                }
+
+            } else {
+                $("#customerId").val("C001");
+            }
+
+        },
+        error : function (error) {
+            console.log(error)
+            alert('Not Get All Data...')
+        }
+    })
+
+
+    /*var customerLength = customers.length;
 
     if(customerLength !== 0 ) {
 
@@ -88,7 +124,7 @@ function autoGenerateCustomerId() {
 
     } else {
         $("#customerId").val("C001");
-    }
+    }*/
 
 }
 // -------------------------- The end - auto generate customer id --------------------------
@@ -172,7 +208,7 @@ $("#customer-save").on('click', () => {
                     $("#customerPhone").val("");
 
                     // generate next customer id
-                    //autoGenerateCustomerId();
+                    autoGenerateCustomerId();
 
                     // update the home page's customer card
                     //$("#customer-count").html(customers.length);
@@ -271,7 +307,7 @@ $("#customer-update").on('click', () => {
                     $("#customerPhone").val("");
 
                     // generate next customer id
-                    //autoGenerateCustomerId();
+                    autoGenerateCustomerId();
 
                     // update the home page's customer card
                     //$("#customer-count").html(customers.length);
@@ -374,10 +410,20 @@ $("#customer-delete").on('click', () => {
 
             // load the table
             loadCustomerTable();
+
+            // clean the inputs values
+            $("#customerId").val("");
+            $("#customerName").val("");
+            $("#customerAddress").val("");
+            $("#customerPhone").val("");
+
+            // generate next customer id
+            autoGenerateCustomerId();
+
         },
         error : function (error) {
             console.log(error)
-            alert('Student not deleted...')
+            showErrorAlert('Student not deleted...')
         }
     });
 
