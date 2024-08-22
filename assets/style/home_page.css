@@ -1,0 +1,967 @@
+.navbar {
+    background-color: papayawhip;
+    height: 80px;
+    margin: 20px;
+    border-radius: 10px;
+    padding: 0.5rem;
+    box-shadow: 8px 8px 6px black;
+    opacity: 0.8;
+}
+
+.navbar .navbar-brand {
+    font-weight: 700;
+    background-color: gold;
+    padding: 8px 20px;
+    margin: 5px 5px;
+}
+
+.navbar .login-button {
+    background-color: gold;
+    color: black;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 5px 15px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: 0.3s background-color;
+    margin-right: 15px;
+    box-shadow: 4px 4px 7px black;
+}
+
+.login-button:hover {
+    background-color: goldenrod;
+}
+
+.navbar-toggler {
+    border: none;
+    font-size: 1.5rem;
+}
+
+.navbar-toggler:focus, btn-close:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.navbar .nav-link {
+    color: #8a8a8a;
+    font-weight: 700;
+    position: relative;
+}
+
+.navbar .nav-link:hover, .nav-link.active {
+    color: green;
+    border-bottom: 1px solid gold;
+}
+
+.nav-link::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background-color: gold;
+    visibility: hidden;
+    transition: 0.3s ease-in-out;
+}
+
+.nav-link:hover::before, .nav-link.active::before {
+    width: 100%;
+    visibility: visible;
+}
+
+.navbar .logo {
+    width: 50px;
+    height: 50px;
+}
+
+.home-image {
+    width: 100vw;
+    height: 100vh;
+}
+
+#home-section {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+#home-section::before {
+    background-color: rgba(0,0,0,0.6);
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+.card-set {
+    width: 30%;
+    height: 10%;
+    position: absolute;
+    top: 40%;
+    bottom: 40%;
+    right: 0;
+    left: 0;
+}
+
+.card-set .card {
+    background-color: papayawhip;
+    box-shadow: 4px 4px 7px black;
+    opacity: 0.7;
+}
+
+.card-set .card .card-body img {
+    height: 100px;
+    object-fit: contain;
+    transition: 0.6s ;
+}
+
+.card-set .card .card-body p {
+    text-shadow: 1px 1px 1px lightgrey;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.card-set .card .card-body h4 {
+    color: green;
+}
+
+.card-set .card .card-body a.my-btn {
+    width: 200px;
+    box-shadow: 3px 3px 8px black;
+    text-align: center;
+    border: none;
+}
+
+.card-set .card .card-body a.my-btn:hover {
+    background-color: goldenrod;
+}
+
+.card-set .card:hover .card-body img {
+    transform: scale(1.5);
+}
+
+.navbar .buttons {
+    margin: 0.3em;
+}
+
+#go-customer-page {
+    width: 200px;
+    box-shadow: 3px 3px 8px black;
+    text-align: center;
+    border: none;
+}
+
+#go-customer-page:hover {
+    background-color: goldenrod;
+}
+
+#go-item-page {
+    width: 200px;
+    box-shadow: 3px 3px 8px black;
+    text-align: center;
+    border: none;
+}
+
+#go-item-page:hover {
+    background-color: goldenrod;
+}
+
+#go-orders-page {
+    width: 200px;
+    box-shadow: 3px 3px 8px black;
+    text-align: center;
+    border: none;
+}
+
+#go-orders-page:hover {
+    background-color: goldenrod;
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 1064px) {
+
+    .navbar .navbar-brand {
+        font-weight: 700;
+        background-color: gold;
+        padding: 6px 8px;
+        margin: 1px 1px;
+    }
+
+    .navbar .logo {
+        width: 45px;
+        height: 50px;
+    }
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 1031px) {
+
+    .navbar .navbar-brand {
+        font-weight: 700;
+        background-color: gold;
+        padding: 6px 6px;
+        margin: 1px 1px;
+    }
+
+    .navbar .logo {
+        width: 40px;
+        height: 50px;
+    }
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 1022px) {
+
+    .navbar .navbar-brand {
+        font-weight: 700;
+        background-color: gold;
+        padding: 6px 6px;
+        margin: 1px 1px;
+    }
+
+    .navbar .logo {
+        width: 40px;
+        height: 50px;
+    }
+
+    .navbar .login-button {
+        background-color: gold;
+        color: black;
+        font-weight: 500;
+        font-size: 16px;
+        padding: 5px 12px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: 0.3s background-color;
+        margin-right: 14px;
+        box-shadow: 4px 4px 7px black;
+    }
+
+    .login-button:hover {
+        background-color: goldenrod;
+    }
+
+    .navbar .buttons {
+        margin: 0.1em;
+    }
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 1002px) {
+
+    .navbar .navbar-brand {
+        font-weight: 700;
+        background-color: gold;
+        padding: 6px 5px;
+        margin: 1px 1px;
+    }
+
+    .navbar .logo {
+        width: 40px;
+        height: 50px;
+    }
+
+    .navbar .login-button {
+         background-color: gold;
+         color: black;
+         font-weight: 500;
+         font-size: 16px;
+         padding: 5px 12px;
+         border-radius: 50px;
+         text-decoration: none;
+         transition: 0.3s background-color;
+         margin-right: 11px;
+         box-shadow: 4px 4px 7px black;
+     }
+
+    .login-button:hover {
+        background-color: goldenrod;
+    }
+
+    .navbar .buttons {
+        margin: 0.005em;
+    }
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 991px) {
+
+    .navbar .navbar-brand {
+        font-weight: 700;
+        background-color: gold;
+        padding: 8px 20px;
+        margin: 5px 5px;
+    }
+
+    .offcanvas-header .offcanvas-title {
+        font-weight: 700;
+        background-color: gold;
+        padding: 8px 20px;
+        margin: 5px 5px;
+    }
+
+    .offcanvas-header .btn-close {
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: black;
+    }
+
+    .navbar .logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .navbar .login-button {
+        background-color: gold;
+        color: black;
+        font-weight: 500;
+        font-size: 16px;
+        padding: 5px 16px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: 0.3s background-color;
+        margin-right: 40px;
+        box-shadow: 4px 4px 7px black;
+    }
+
+    #home-section {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+    }
+
+    #home-section .card-set {
+        width: 90%;
+        height: 10%;
+        position: absolute;
+        top: 40%;
+        bottom: 40%;
+        right: 0;
+        left: 0;
+    }
+
+    #go-customer-page, #go-item-page, #go-orders-page {
+        width: 160px;
+        box-shadow: 3px 3px 8px black;
+        text-align: center;
+        border: none;
+    }
+
+    .login-button:hover {
+        background-color: goldenrod;
+    }
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 837px) {
+
+    .navbar .navbar-brand {
+        font-weight: 700;
+        background-color: gold;
+        padding: 8px 20px;
+        margin: 5px 5px;
+    }
+
+    .offcanvas-header .offcanvas-title {
+        font-weight: 700;
+        background-color: gold;
+        padding: 8px 20px;
+        margin: 5px 5px;
+    }
+
+    .offcanvas-header .btn-close {
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: black;
+    }
+
+    .navbar .logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .navbar .login-button {
+        background-color: gold;
+        color: black;
+        font-weight: 500;
+        font-size: 16px;
+        padding: 5px 15px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: 0.3s background-color;
+        margin-right: 10px;
+        box-shadow: 4px 4px 7px black;
+    }
+
+    #home-section {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+    }
+
+    #home-section .card-set {
+        width: 90%;
+        height: 10%;
+        position: absolute;
+        top: 40%;
+        bottom: 40%;
+        right: 0;
+        left: 0;
+    }
+
+    #go-customer-page, #go-item-page, #go-orders-page {
+        width: 160px;
+        box-shadow: 3px 3px 8px black;
+        text-align: center;
+        border: none;
+    }
+
+    .login-button:hover {
+        background-color: goldenrod;
+    }
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 767px) {
+
+    #home-section {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+
+        overflow-x: hidden;
+    }
+
+    #home-section::before {
+        position: absolute;
+        width: 100vw;
+        height: 215vh;
+        background-color: rgba(0,0,0,0.6);
+        content: "";
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+
+    #home-section .home-image {
+        width: 400%;
+        height: 215%;
+    }
+
+    .navbar .login-button {
+        background-color: gold;
+        color: black;
+        font-weight: 500;
+        font-size: 16px;
+        padding: 5px 12px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: 0.3s background-color;
+        margin-right: 10px;
+        box-shadow: 4px 4px 7px black;
+    }
+
+    #go-customer-page, #go-item-page, #go-orders-page {
+        width: 200px;
+        box-shadow: 3px 3px 8px black;
+        text-align: center;
+        border: none;
+    }
+
+    .login-button:hover {
+        background-color: goldenrod;
+    }
+
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 720px) {
+
+    #home-section {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+
+        overflow-x: hidden;
+    }
+
+    #home-section::before {
+        width: 100vw;
+        height: 215vh;
+        background-color: rgba(0,0,0,0.6);
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+
+    #home-section .home-image {
+        width: 400%;
+        height: 215%;
+    }
+
+    .navbar .login-button {
+        background-color: gold;
+        color: black;
+        font-weight: 500;
+        font-size: 16px;
+        padding: 5px 10px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: 0.3s background-color;
+        margin-right: 9px;
+        box-shadow: 4px 4px 7px black;
+    }
+
+    .card-set .card .card-body a.my-btn {
+        width: 200px;
+        box-shadow: 3px 3px 8px black;
+        text-align: center;
+        border: none;
+    }
+
+    .navbar .navbar-brand {
+        font-weight: 700;
+        background-color: gold;
+        padding: 6px 5px;
+        margin: 1px 1px;
+    }
+
+    .navbar .logo {
+        width: 40px;
+        height: 50px;
+    }
+
+    .navbar .buttons {
+        margin: 0.005em;
+    }
+
+    .login-button:hover {
+        background-color: goldenrod;
+    }
+
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 658px) {
+
+    #home-section {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+
+        overflow-x: hidden;
+    }
+
+    #home-section::before {
+        width: 100vw;
+        height: 215vh;
+        background-color: rgba(0,0,0,0.6);
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+
+    #home-section .home-image {
+        width: 400%;
+        height: 215%;
+    }
+
+    .navbar .login-button {
+        background-color: gold;
+        color: black;
+        font-weight: 500;
+        font-size: 16px;
+        padding: 5px 10px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: 0.3s background-color;
+        margin-right: 9px;
+        box-shadow: 4px 4px 7px black;
+    }
+
+    .card-set .card .card-body a.my-btn {
+        width: 200px;
+        box-shadow: 3px 3px 8px black;
+        text-align: center;
+        border: none;
+    }
+
+    .navbar .navbar-brand {
+        font-weight: 700;
+        background-color: gold;
+        padding: 6px 5px;
+        margin: 1px 1px;
+    }
+
+    .navbar .logo {
+        display: none;
+    }
+
+    .navbar .buttons {
+        margin: 0.005em;
+    }
+
+    .login-button:hover {
+        background-color: goldenrod;
+    }
+
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 618px) {
+
+    #home-section {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+
+        overflow-x: hidden;
+    }
+
+    #home-section::before {
+        width: 100vw;
+        height: 215vh;
+        background-color: rgba(0,0,0,0.6);
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+
+    #home-section .home-image {
+        width: 400%;
+        height: 215%;
+    }
+
+    .navbar .login-button {
+        background-color: gold;
+        color: black;
+        font-weight: 500;
+        font-size: 16px;
+        padding: 5px 5px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: 0.3s background-color;
+        margin-right: 8px;
+        box-shadow: 4px 4px 7px black;
+    }
+
+    .card-set .card .card-body a.my-btn {
+        width: 200px;
+        box-shadow: 3px 3px 8px black;
+        text-align: center;
+        border: none;
+    }
+
+    .navbar .navbar-brand {
+        font-weight: 700;
+        background-color: gold;
+        padding: 6px 5px;
+        margin: 1px 1px;
+    }
+
+    .navbar .logo {
+        display: none;
+    }
+
+    .navbar .buttons {
+        margin: 0.005em;
+    }
+
+    .login-button:hover {
+        background-color: goldenrod;
+    }
+
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 588px) {
+
+    #home-section {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+
+        overflow-x: hidden;
+    }
+
+    #home-section::before {
+        width: 100vw;
+        height: 215vh;
+        background-color: rgba(0,0,0,0.6);
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+
+    #home-section .home-image {
+        width: 400%;
+        height: 215%;
+    }
+
+    .navbar .login-button {
+        background-color: gold;
+        color: black;
+        font-weight: 500;
+        font-size: 12px;
+        padding: 3px 8px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: 0.3s background-color;
+        margin-right: 12px;
+        box-shadow: 4px 4px 7px black;
+    }
+
+    .card-set .card .card-body a.my-btn {
+        width: 200px;
+        box-shadow: 3px 3px 8px black;
+        text-align: center;
+        border: none;
+    }
+
+    .navbar .navbar-brand {
+        font-size: 1rem;
+        font-weight: 700;
+        background-color: papayawhip;
+        /*padding: 6px 5px;*/
+        /*margin: 1px 1px;*/
+    }
+
+    .navbar .logo {
+        display: none;
+    }
+
+    .navbar .buttons {
+        margin: 0.001em;
+    }
+
+    .login-button:hover {
+        background-color: goldenrod;
+    }
+
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 533px) {
+
+    #home-section {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+
+        overflow-x: hidden;
+    }
+
+    #home-section::before {
+        width: 100vw;
+        height: 190vh;
+        background-color: rgba(0,0,0,0.6);
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+
+    #home-section .home-image {
+        width: 400%;
+        height: 190%;
+    }
+
+    .navbar .login-button {
+        background-color: gold;
+        color: black;
+        font-weight: 500;
+        font-size: 12px;
+        padding: 3px 8px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: 0.3s background-color;
+        margin-right: 10px;
+        box-shadow: 4px 4px 7px black;
+    }
+
+    .card-set {
+        width: 10%;
+        height: 10%;
+        position: absolute;
+        top: 10%;
+        bottom: 40%;
+        right: 0;
+        left: 0;
+    }
+
+    .card-set .card .card-body img {
+        height: 60px;
+        object-fit: contain;
+        transition: 0.6s ;
+    }
+
+    .card-set .card .card-body p {
+        text-shadow: 1px 1px 1px lightgrey;
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .card-set .card .card-body h4 {
+        font-size: 18px;
+        color: green;
+    }
+
+    .card-set .card .card-body a.my-btn {
+        width: 200px;
+        box-shadow: 3px 3px 8px black;
+        text-align: center;
+        border: none;
+    }
+
+    .navbar .navbar-brand {
+        font-size: 1rem;
+        font-weight: 700;
+        background-color: papayawhip;
+        /*padding: 6px 5px;*/
+        /*margin: 1px 1px;*/
+    }
+
+    .navbar .logo {
+        display: none;
+    }
+
+    .navbar .buttons {
+        margin: 0.001em;
+    }
+
+    .login-button:hover {
+        background-color: goldenrod;
+    }
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 526px) {
+
+    #home-section {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+
+        overflow-x: hidden;
+    }
+
+    #home-section::before {
+        width: 100vw;
+        height: 190vh;
+        background-color: rgba(0,0,0,0.6);
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+
+    #home-section .home-image {
+        width: 400%;
+        height: 190%;
+    }
+
+    .navbar .login-button {
+        background-color: gold;
+        color: black;
+        font-weight: 500;
+        font-size: 11px;
+        padding: 3px 5px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: 0.3s background-color;
+        margin-right: 8px;
+        box-shadow: 4px 4px 7px black;
+    }
+
+    .card-set {
+        width: 10%;
+        height: 10%;
+        position: absolute;
+        top: 10%;
+        bottom: 40%;
+        right: 0;
+        left: 0;
+    }
+
+    .card-set .card .card-body img {
+        height: 60px;
+        object-fit: contain;
+        transition: 0.6s ;
+    }
+
+    .card-set .card .card-body p {
+        text-shadow: 1px 1px 1px lightgrey;
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .card-set .card .card-body h4 {
+        font-size: 18px;
+        color: green;
+    }
+
+    .card-set .card .card-body a.my-btn {
+        width: 200px;
+        box-shadow: 3px 3px 8px black;
+        text-align: center;
+        border: none;
+    }
+
+    .navbar .navbar-brand {
+        font-size: 1rem;
+        font-weight: 700;
+        background-color: papayawhip;
+        /*padding: 6px 5px;*/
+        /*margin: 1px 1px;*/
+    }
+
+    .navbar .logo {
+        display: none;
+    }
+
+    .navbar .buttons {
+        margin: 0.001em;
+    }
+
+    .login-button:hover {
+        background-color: goldenrod;
+    }
+}
+
+
+

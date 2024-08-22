@@ -1,0 +1,191 @@
+.login-background {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(218, 165, 32, 0.91);
+    position: relative;
+    overflow: hidden;
+}
+
+.login-background form {
+    position: absolute;
+    width: 40%;
+    height: 80%;
+    left: 0;
+    right: 0;
+    top: 4.5rem;
+    margin: auto;
+    opacity: 0.8;
+}
+
+.login-background form p {
+    font-size: 12px;
+    margin-left: 1rem;
+    padding-top: 1rem;
+}
+
+.login-background form .form-down {
+    position: absolute;
+    width: 60%;
+    height: 10%;
+    font-size: 14px;
+    left: 30%;
+    bottom: 0;
+}
+
+.login-background form .form-down span{
+    color: #0078ff;
+    margin-left: 0;
+    border-bottom: 1px solid #0078ff;;
+}
+
+.login-background form .bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: papayawhip;
+    box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.58);
+}
+
+.login-background form .btn {
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.64);
+    font-weight: 600;
+    margin-top: 3rem;
+}
+
+.login-background form .btn:hover {
+    background-color: #e5a72a;
+}
+
+.login-background form input {
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.4);
+    margin-bottom: 1rem;
+}
+
+.login-background form input:hover{
+    border: 4px solid goldenrod;
+}
+
+
+
+/*------------------------------------------*/
+
+@media (max-width: 1190px) {
+
+    .login-background form {
+        position: absolute;
+        width: 50%;
+        height: 80%;
+        left: 0;
+        right: 0;
+        top: 4.5rem;
+        margin: auto;
+        opacity: 0.8;
+    }
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 1000px) {
+
+    .login-background form {
+        position: absolute;
+        width: 60%;
+        height: 80%;
+        left: 0;
+        right: 0;
+        top: 4.5rem;
+        margin: auto;
+        opacity: 0.8;
+    }
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 810px) {
+
+    .login-background form {
+        position: absolute;
+        width: 70%;
+        height: 80%;
+        left: 0;
+        right: 0;
+        top: 4.5rem;
+        margin: auto;
+        opacity: 0.8;
+    }
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 600px) {
+
+    .login-background form {
+        position: absolute;
+        width: 75%;
+        height: 80%;
+        left: 0;
+        right: 0;
+        top: 4.5rem;
+        margin: auto;
+        opacity: 0.8;
+    }
+
+    .login-background form .form-down {
+        position: absolute;
+        width: 60%;
+        height: 10%;
+        font-size: 14px;
+        left: 25%;
+        bottom: 0;
+    }
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 533px) {
+
+    .login-background form {
+        position: absolute;
+        width: 75%;
+        height: 80%;
+        left: 0;
+        right: 0;
+        top: 4.5rem;
+        margin: auto;
+        opacity: 0.8;
+    }
+
+    .login-background form .form-down {
+        position: absolute;
+        width: 60%;
+        height: 10%;
+        font-size: 14px;
+        left: 23%;
+        bottom: 0;
+    }
+}
+
+/*------------------------------------------*/
+
+@media (max-width: 500px) {
+
+    .login-background form {
+        position: absolute;
+        width: 75%;
+        height: 80%;
+        left: 0;
+        right: 0;
+        top: 4.5rem;
+        margin: auto;
+        opacity: 0.8;
+    }
+
+    .login-background form .form-down {
+        position: absolute;
+        width: 60%;
+        height: 10%;
+        font-size: 14px;
+        left: 21%;
+        bottom: 0;
+    }
+}
