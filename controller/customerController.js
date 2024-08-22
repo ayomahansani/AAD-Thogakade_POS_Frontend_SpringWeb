@@ -71,7 +71,6 @@ autoGenerateCustomerId();
 // -------------------------- The start - auto generate customer id --------------------------
 function autoGenerateCustomerId() {
 
-
     $.ajax({
         url : "http://localhost:8085/customer",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
@@ -102,29 +101,9 @@ function autoGenerateCustomerId() {
         },
         error : function (error) {
             console.log(error)
-            alert('Not Get All Data...')
+            showErrorAlert('Not auto generated customer id...')
         }
     })
-
-
-    /*var customerLength = customers.length;
-
-    if(customerLength !== 0 ) {
-
-        var currentCustomerId = customers[customers.length-1].id;
-        var split = [];
-        split = currentCustomerId.split("C0");
-        var id = parseInt(split[1]);
-        id++;
-        if(id < 10) {
-            $("#customerId").val("C00" + id);
-        }else{
-            $("#customerId").val("C0" + id);
-        }
-
-    } else {
-        $("#customerId").val("C001");
-    }*/
 
 }
 // -------------------------- The end - auto generate customer id --------------------------
@@ -154,73 +133,77 @@ $("#customer-save").on('click', () => {
     if(customerValidated) {
 
         // Check for duplicate customer IDs
-        if (isDuplicateCustomerId(idOfCustomer)) {
+        isDuplicateCustomerId(idOfCustomer).then(isDuplicated => {
 
-            // Show error message for duplicate customer ID
-            showErrorAlert("Customer ID already exists. Please enter a different ID.");
+            if (isDuplicated) {
 
-        } else {
+                // Show error message for duplicate customer ID
+                showErrorAlert("Customer ID already exists. Please enter a different ID.");
 
-            // create an object - Object Literal
-            let customer = {
-                id: idOfCustomer,
-                name: nameOfCustomer,
-                address: addressOfCustomer,
-                phone: phoneOfCustomer
+            } else {
+
+                // create an object - Object Literal
+                let customer = {
+                    id: idOfCustomer,
+                    name: nameOfCustomer,
+                    address: addressOfCustomer,
+                    phone: phoneOfCustomer
+                }
+
+
+                // For testing
+                console.log("JS Object : " + customer);
+
+                // Create JSON
+                // convert js object to JSON object
+                const jsonCustomer = JSON.stringify(customer);
+                console.log("JSON Object : " + jsonCustomer);
+
+
+                // ========= Ajax with JQuery =========
+
+                $.ajax({
+                    url: "http://localhost:8085/customer",
+                    type: "POST",
+                    data: jsonCustomer,
+                    headers: {"Content-Type": "application/json"},
+
+                    success: function (results) {
+
+                        // show customer saved pop up
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Customer saved successfully!',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            iconColor: '#4dc94d'
+                        });
+
+                        // load the table
+                        loadCustomerTable();
+
+                        // clean the inputs values
+                        $("#customerId").val("");
+                        $("#customerName").val("");
+                        $("#customerAddress").val("");
+                        $("#customerPhone").val("");
+
+                        // generate next customer id
+                        autoGenerateCustomerId();
+
+                        // update the home page's customer card
+                        //$("#customer-count").html(customers.length);
+
+                    },
+
+                    error: function (error) {
+                        console.log(error)
+                        showErrorAlert('Customer not saved...')
+                    }
+                });
             }
 
-
-            // For testing
-            console.log("JS Object : " + customer);
-
-            // Create JSON
-            // convert js object to JSON object
-            const jsonCustomer = JSON.stringify(customer);
-            console.log("JSON Object : " + jsonCustomer);
-
-
-            // ========= Ajax with JQuery =========
-
-            $.ajax({
-                url: "http://localhost:8085/customer",
-                type: "POST",
-                data: jsonCustomer,
-                headers: { "Content-Type": "application/json" },
-
-                success : function (results) {
-
-                    // show customer saved pop up
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Customer saved successfully!',
-                        showConfirmButton: false,
-                        timer: 1500,
-                        iconColor: '#4dc94d'
-                    });
-
-                    // load the table
-                    loadCustomerTable();
-
-                    // clean the inputs values
-                    $("#customerId").val("");
-                    $("#customerName").val("");
-                    $("#customerAddress").val("");
-                    $("#customerPhone").val("");
-
-                    // generate next customer id
-                    autoGenerateCustomerId();
-
-                    // update the home page's customer card
-                    //$("#customer-count").html(customers.length);
-
-                },
-
-                error : function (error) {
-                    console.log(error)
-                    showErrorAlert('Customer not saved...')
-                }
-            });
-        }
+        })
 
     }
 
@@ -232,8 +215,22 @@ $("#customer-save").on('click', () => {
 
 // -------------------------- The start - function to check for duplicate customer IDs --------------------------
 function isDuplicateCustomerId(id) {
-    return customers.some(customer => customer.id === id);
+
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "http://localhost:8085/customer",
+            type: "GET",
+            success: function (results) {
+                const isDuplicated = results.some(customer => customer.id === id);
+                resolve(isDuplicated);
+            },
+            error: function (error) {
+                reject(error);
+            }
+        });
+    });
 }
+
 // -------------------------- The end - function to check for duplicate customer IDs --------------------------
 
 
