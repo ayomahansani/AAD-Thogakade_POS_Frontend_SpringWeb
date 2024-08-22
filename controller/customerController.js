@@ -254,7 +254,7 @@ $("#customer-delete").on('click', () => {
 
     var cusId = $("#customerId").val();
 
-    if(customers.length !== 0) {
+    /*if(customers.length !== 0) {
 
         customers.map((item) => {
 
@@ -310,7 +310,24 @@ $("#customer-delete").on('click', () => {
 
     } else {
         showErrorAlert("First you need to add customers ! Then you can delete...");
-    }
+    }*/
+
+
+    // Ajax with JQuery
+
+    $.ajax({
+        url: "http://localhost:8085/customer?id=" + id,
+        type: "DELETE",
+        success : function (results) {
+            console.log(results)
+            alert('Student deleted successfully...')
+            //loadAllStudents();
+        },
+        error : function (error) {
+            console.log(error)
+            alert('Student not deleted...')
+        }
+    });
 
 });
 // -------------------------- The end - when click customer delete button --------------------------
