@@ -152,7 +152,7 @@ $("#customer-save").on('click', () => {
 
                 error : function (error) {
                     console.log(error)
-                    showErrorAlert('Student not saved...')
+                    showErrorAlert('Customer not saved...')
                 }
             });
         }
@@ -178,14 +178,96 @@ function isDuplicateCustomerId(id) {
 $("#customer-update").on('click', () => {
 
     // get values from inputs
-
     var idOfCustomer = $("#customerId").val();      // customer id value
     var nameOfCustomer = $("#customerName").val();      // customer name value
     var addressOfCustomer = $("#customerAddress").val();        // customer address value
     var phoneOfCustomer = $("#customerPhone").val();        // customer phone value
 
+    // check whether print those values
+    console.log("id: " , idOfCustomer);
+    console.log("name: " , nameOfCustomer);
+    console.log("address: " , addressOfCustomer);
+    console.log("phone: " , phoneOfCustomer);
 
-    if(customers.length !== 0) {
+
+    let customerValidated = checkCustomerValidation(idOfCustomer,nameOfCustomer,addressOfCustomer,phoneOfCustomer);
+
+
+    if(customerValidated) {
+
+        // Check for duplicate customer IDs
+        if (isDuplicateCustomerId(idOfCustomer)) {
+
+            // Show error message for duplicate customer ID
+            showErrorAlert("Customer ID already exists. Please enter a different ID.");
+
+        } else {
+
+            // create an object - Object Literal
+            let customer = {
+                id: idOfCustomer,
+                name: nameOfCustomer,
+                address: addressOfCustomer,
+                phone: phoneOfCustomer
+            }
+
+
+            // For testing
+            console.log("JS Object : " + customer);
+
+            // Create JSON
+            // convert js object to JSON object
+            const jsonCustomer = JSON.stringify(customer);
+            console.log("JSON Object : " + jsonCustomer);
+
+
+            // ========= Ajax with JQuery =========
+
+            $.ajax({
+                url: "http://localhost:8085/customer?id=" + idOfCustomer,
+                type: "PUT",
+                data: jsonCustomer,
+                headers: { "Content-Type": "application/json" },
+
+                success : function (results) {
+
+                    // show customer saved pop up
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Customer updated successfully!',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        iconColor: '#4dc94d'
+                    });
+
+                    // load the table
+                    //loadCustomerTable();
+
+                    // clean the inputs values
+                    $("#customerId").val("");
+                    $("#customerName").val("");
+                    $("#customerAddress").val("");
+                    $("#customerPhone").val("");
+
+                    // generate next customer id
+                    //autoGenerateCustomerId();
+
+                    // update the home page's customer card
+                    //$("#customer-count").html(customers.length);
+
+                },
+
+                error : function (error) {
+                    console.log(error)
+                    showErrorAlert('Customer not saved...')
+                }
+            });
+        }
+
+    }
+
+
+    /*if(customers.length !== 0) {
 
         customers.map((item) => {
 
@@ -237,7 +319,7 @@ $("#customer-update").on('click', () => {
 
     } else {
         showErrorAlert("First you need to add customers ! Then you can update...");
-    }
+    }*/
 
     // ********** special **********
     // the clicked table's row index must equal to the customer object's index of array
@@ -254,65 +336,6 @@ $("#customer-delete").on('click', () => {
 
     var cusId = $("#customerId").val();
 
-    /*if(customers.length !== 0) {
-
-        customers.map((item) => {
-
-            if(item.id === cusId){
-
-                Swal.fire({
-
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#6da959',
-                    cancelButtonColor: '#dcba65',
-                    background: '#fff1e0',
-                    width: '35em',
-                    confirmButtonText: 'Yes, delete customer!'
-
-                }).then((result) => {
-
-                    if (result.isConfirmed) {
-
-                        customers.splice(customerRecordIndex, 1);
-
-                        // load the table
-                        loadCustomerTable();
-
-                        // clean the inputs values
-                        $("#customerId").val("");
-                        $("#customerName").val("");
-                        $("#customerAddress").val("");
-                        $("#customerPhone").val("");
-
-                        // generate next customer id
-                        autoGenerateCustomerId();
-
-                        // show customer deleted pop up
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Customer deleted successfully!',
-                            showConfirmButton: false,
-                            timer: 1500,
-                            iconColor: '#4dc94d'
-                        });
-
-                    }
-                });
-
-            } else {
-                showErrorAlert("This customer is not added yet !")
-            }
-
-        });
-
-    } else {
-        showErrorAlert("First you need to add customers ! Then you can delete...");
-    }*/
-
-
     // Ajax with JQuery
 
     $.ajax({
@@ -328,6 +351,64 @@ $("#customer-delete").on('click', () => {
             alert('Student not deleted...')
         }
     });
+
+    /*if(customers.length !== 0) {
+
+       customers.map((item) => {
+
+           if(item.id === cusId){
+
+               Swal.fire({
+
+                   title: 'Are you sure?',
+                   text: "You won't be able to revert this!",
+                   icon: 'warning',
+                   showCancelButton: true,
+                   confirmButtonColor: '#6da959',
+                   cancelButtonColor: '#dcba65',
+                   background: '#fff1e0',
+                   width: '35em',
+                   confirmButtonText: 'Yes, delete customer!'
+
+               }).then((result) => {
+
+                   if (result.isConfirmed) {
+
+                       customers.splice(customerRecordIndex, 1);
+
+                       // load the table
+                       loadCustomerTable();
+
+                       // clean the inputs values
+                       $("#customerId").val("");
+                       $("#customerName").val("");
+                       $("#customerAddress").val("");
+                       $("#customerPhone").val("");
+
+                       // generate next customer id
+                       autoGenerateCustomerId();
+
+                       // show customer deleted pop up
+                       Swal.fire({
+                           icon: 'success',
+                           title: 'Customer deleted successfully!',
+                           showConfirmButton: false,
+                           timer: 1500,
+                           iconColor: '#4dc94d'
+                       });
+
+                   }
+               });
+
+           } else {
+               showErrorAlert("This customer is not added yet !")
+           }
+
+       });
+
+   } else {
+       showErrorAlert("First you need to add customers ! Then you can delete...");
+   }*/
 
 });
 // -------------------------- The end - when click customer delete button --------------------------
