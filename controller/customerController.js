@@ -539,7 +539,32 @@ $("#customer-tbl-tbody").on( 'click', 'tr', function () {
 // -------------------------- The start - when click view all customers button --------------------------
 $("#viewAllCus").on('click', function () {
 
-    $("#all-customers-tbl-tbody").empty();
+    $.ajax({
+        url : "http://localhost:8085/customer",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success : function (results) {
+            console.log(results)
+
+            // Clear the existing table body
+            $('#all-customers-tbl-tbody').empty();
+
+            // Iterate over the results and append rows to the table
+            results.forEach(function(customer) {
+                let row = `
+                    <tr>
+                        <td>${customer.name}</td>
+                    </tr>
+                `;
+                $('#all-customers-tbl-tbody').append(row);
+            });
+        },
+        error : function (error) {
+            console.log(error)
+            alert('Can not get all customers...')
+        }
+    })
+
+    /*$("#all-customers-tbl-tbody").empty();
 
     customers.map((item, index) => {
 
@@ -552,7 +577,7 @@ $("#viewAllCus").on('click', function () {
         $("#all-customers-tbl-tbody").append(record);
         $("#all-customers-tbl-tbody").css("font-weight", 600);
 
-    });
+    });*/
 
 });
 // -------------------------- The end - when click view all customers button --------------------------
