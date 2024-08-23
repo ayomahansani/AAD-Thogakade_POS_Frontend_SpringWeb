@@ -1,6 +1,3 @@
-// import array
-import {customers, items} from "../db/db.js";
-
 
 var customerRecordIndex;
 
