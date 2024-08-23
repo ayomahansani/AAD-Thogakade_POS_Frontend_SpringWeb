@@ -3,9 +3,13 @@ import {autoFillCurrentDate} from "./orderController.js";
 import {loadCustomerComboBoxValues} from "./orderController.js";
 import {loadItemComboBoxValues} from "./orderController.js";
 import {loadCustomerTable} from "./customerController.js";
+import {loadCustomersCount} from "./customerController.js";
 
 // import arrays
 import {customers, items} from "../db/db.js";
+
+// set all customer count to home page
+loadCustomersCount();
 
 // display all customers in customer table
 loadCustomerTable();
@@ -38,6 +42,7 @@ $('#home-section').css({display: 'block'});
 /* start home nav management */
 $('#nav-home').on("click", function () {
     displayNonSections();
+    loadCustomersCount();
     $('#home-section').css({display: 'block'});
 });
 /* end home nav management */

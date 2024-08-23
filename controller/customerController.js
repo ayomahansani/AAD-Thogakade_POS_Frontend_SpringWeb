@@ -61,6 +61,25 @@ export function loadCustomerTable() {
 
 
 
+// -------------------------- The start - customer's count loading --------------------------
+export function loadCustomersCount() {
+
+    $.ajax({
+        url : "http://localhost:8085/customer",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success : function (results) {
+            $("#customer-count").html(results.length);
+        },
+        error : function (error) {
+            console.log(error)
+        }
+    })
+}
+// -------------------------- The end - customer's count loading --------------------------
+
+
+
+
 // ---------------- The start - when first time order page is loaded, want to generate customer id  ----------------
 autoGenerateCustomerId();
 // --------------- The end - when first time order page is loaded, want to generate customer id  ----------------
@@ -191,9 +210,6 @@ $("#customer-save").on('click', () => {
                         // generate next customer id
                         autoGenerateCustomerId();
 
-                        // update the home page's customer card
-                        //$("#customer-count").html(customers.length);
-
                     },
 
                     error: function (error) {
@@ -306,9 +322,6 @@ $("#customer-update").on('click', () => {
                     // generate next customer id
                     autoGenerateCustomerId();
 
-                    // update the home page's customer card
-                    //$("#customer-count").html(customers.length);
-
                 },
 
                 error : function (error) {
@@ -416,6 +429,9 @@ $("#customer-delete").on('click', () => {
 
             // generate next customer id
             autoGenerateCustomerId();
+
+            // update the home page's customer card
+            //$("#customer-count").html(results.length);
 
         },
         error : function (error) {
