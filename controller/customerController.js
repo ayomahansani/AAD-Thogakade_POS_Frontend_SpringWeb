@@ -430,9 +430,6 @@ $("#customer-delete").on('click', () => {
             // generate next customer id
             autoGenerateCustomerId();
 
-            // update the home page's customer card
-            //$("#customer-count").html(results.length);
-
         },
         error : function (error) {
             console.log(error)
@@ -649,61 +646,70 @@ $("#customer-search-btn").on('click', function () {
 
     var customerDetail = $("#searchCustomer").val();
 
-    if (customers.length !== 0) {
+    $.ajax({
+        url : "http://localhost:8085/customer",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success : function (results) {
 
-        for (let i=0; i<customers.length; i++) {
+            if (results.length !== 0) {
 
-            if (customers[i].id === customerDetail || customers[i].name === customerDetail) {
-                $("#searchedCustomerId").val(customers[i].id);
-                $("#searchedCustomerName").val(customers[i].name);
-                $("#searchedCustomerAddress").val(customers[i].address);
-                $("#searchedCustomerPhone").val(customers[i].phone);
+                for (let i=0; i<results.length; i++) {
+
+                    if (results[i].id === customerDetail || results[i].name === customerDetail) {
+                        $("#searchedCustomerId").val(results[i].id);
+                        $("#searchedCustomerName").val(results[i].name);
+                        $("#searchedCustomerAddress").val(results[i].address);
+                        $("#searchedCustomerPhone").val(results[i].phone);
+
+                        $("#customerDetailsModalLabel").html("Customer Details");
+
+                        return;
+                    }
+
+                }
+
+                if(customerDetail !== "") {
+
+                    showErrorAlert("Can't find customer ! Try again...");
+
+                    $("#searchedCustomerId").val("");
+                    $("#searchedCustomerName").val("");
+                    $("#searchedCustomerAddress").val("");
+                    $("#searchedCustomerPhone").val("");
+
+                    $("#customerDetailsModalLabel").html("Customer Details");
+
+                } else {
+
+                    showErrorAlert("Please enter customer id or name to search !");
+
+                    $("#searchedCustomerId").val("");
+                    $("#searchedCustomerName").val("");
+                    $("#searchedCustomerAddress").val("");
+                    $("#searchedCustomerPhone").val("");
+
+                    $("#customerDetailsModalLabel").html("Customer Details");
+
+                }
+
+
+            } else {
+
+                showErrorAlert("First you need to add customers ! Then you can search...");
+
+                $("#searchedCustomerId").val("");
+                $("#searchedCustomerName").val("");
+                $("#searchedCustomerAddress").val("");
+                $("#searchedCustomerPhone").val("");
 
                 $("#customerDetailsModalLabel").html("Customer Details");
-
-                return;
             }
 
+        },
+        error : function (error) {
+            console.log(error)
         }
-
-
-        if(customerDetail !== "") {
-
-            showErrorAlert("Can't find customer ! Try again...");
-
-            $("#searchedCustomerId").val("");
-            $("#searchedCustomerName").val("");
-            $("#searchedCustomerAddress").val("");
-            $("#searchedCustomerPhone").val("");
-
-            $("#customerDetailsModalLabel").html("Customer Details");
-
-        } else {
-
-            showErrorAlert("Please enter customer id or name to search !");
-
-            $("#searchedCustomerId").val("");
-            $("#searchedCustomerName").val("");
-            $("#searchedCustomerAddress").val("");
-            $("#searchedCustomerPhone").val("");
-
-            $("#customerDetailsModalLabel").html("Customer Details");
-
-        }
-
-
-    } else {
-
-        showErrorAlert("First you need to add customers ! Then you can search...");
-
-        $("#searchedCustomerId").val("");
-        $("#searchedCustomerName").val("");
-        $("#searchedCustomerAddress").val("");
-        $("#searchedCustomerPhone").val("");
-
-        $("#customerDetailsModalLabel").html("Customer Details");
-    }
-
+    })
 
 });
 // -------------------------- The end - when click customer search button --------------------------
