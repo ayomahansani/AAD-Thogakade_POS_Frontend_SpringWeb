@@ -231,7 +231,22 @@ $("#item-save").on('click', () => {
 
 // -------------------------- The start - function to check for duplicate item codes --------------------------
 function isDuplicateItemCode(code) {
-    return items.some(item => item.code === code);
+
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "http://localhost:8085/item",
+            type: "GET",
+            success: function (results) {
+                const isDuplicated = results.some(item => item.code === code);
+                resolve(isDuplicated);
+            },
+            error: function (error) {
+                reject(error);
+            }
+        });
+    });
+
+    //return items.some(item => item.code === code);
 }
 // -------------------------- The end - function to check for duplicate item codes --------------------------
 
