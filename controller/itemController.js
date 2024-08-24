@@ -1,8 +1,3 @@
-// import array
-import {items} from "../db/db.js";
-
-// import class
-import {ItemModel} from "../model/itemModel.js";
 
 // import method
 import {showErrorAlert} from "./customerController.js";
@@ -28,10 +23,10 @@ export function loadItemTable() {
             results.forEach(function(item) {
                 let row = `
                     <tr>
-                        <td class="item-code-value">${item.id}</td>
+                        <td class="item-code-value">${item.code}</td>
                         <td class="item-name-value">${item.name}</td>
-                        <td class="item-price-value">${item.address}</td>
-                        <td class="item-qty-value">${item.phone}</td>
+                        <td class="item-price-value"> Rs: ${item.price}</td>
+                        <td class="item-qty-value">${item.qty}</td>
                     </tr>
                 `;
                 $('#item-tbl-tbody').append(row);
@@ -64,6 +59,25 @@ export function loadItemTable() {
     });*/
 }
 // -------------------------- The end - item table loading --------------------------
+
+
+
+
+// -------------------------- The start - customer's count loading --------------------------
+export function loadItemsCount() {
+
+    $.ajax({
+        url : "http://localhost:8085/item",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success : function (results) {
+            $("#item-count").html(results.length);
+        },
+        error : function (error) {
+            console.log(error)
+        }
+    })
+}
+// -------------------------- The end - customer's count loading --------------------------
 
 
 
@@ -159,67 +173,71 @@ $("#item-save").on('click', () => {
     if(itemValidated) {
 
         // Check for duplicate item Codes
-        if (isDuplicateItemCode(codeOfItem)) {
+        isDuplicateItemCode(codeOfItem).then(isDuplicated => {
 
-            // Show error message for duplicate item code
-            showErrorAlert("Item code already exists. Please enter a different ID.");
+            if (isDuplicated) {
 
-        } else {
+                // Show error message for duplicate item code
+                showErrorAlert("Item code already exists. Please enter a different ID.");
 
-            // create an object - Object Literal
-            let item = {
-                code: codeOfItem,
-                name: nameOfItem,
-                price: priceOfItem,
-                qty: qtyOfItem
+            } else {
+
+                // create an object - Object Literal
+                let item = {
+                    code: codeOfItem,
+                    name: nameOfItem,
+                    price: priceOfItem,
+                    qty: qtyOfItem
+                }
+
+                // For testing
+                console.log("JS Object : " + item);
+
+                // Create JSON
+                // convert js object to JSON object
+                const jsonItem = JSON.stringify(item);
+                console.log("JSON Object : " + jsonItem);
+
+                $.ajax({
+                    url: "http://localhost:8085/item",
+                    type: "POST",
+                    data: jsonItem,
+                    headers: {"Content-Type": "application/json"},
+
+                    success: function (results) {
+
+                        // show customer saved pop up
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Item saved successfully!',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            iconColor: '#4dc94d'
+                        });
+
+                        // load the table
+                        loadItemTable();
+
+                        // clean the inputs values
+                        $("#codeItem").val("");
+                        $("#nameItem").val("");
+                        $("#priceItem").val("");
+                        $("#qtyItem").val("");
+
+                        // generate next item id
+                        autoGenerateItemId();
+
+                    },
+
+                    error: function (error) {
+                        console.log(error)
+                        showErrorAlert('Item not saved...')
+                    }
+                });
+
             }
 
-            // For testing
-            console.log("JS Object : " + item);
-
-            // Create JSON
-            // convert js object to JSON object
-            const jsonItem = JSON.stringify(item);
-            console.log("JSON Object : " + jsonItem);
-
-            $.ajax({
-                url: "http://localhost:8085/item",
-                type: "POST",
-                data: jsonItem,
-                headers: {"Content-Type": "application/json"},
-
-                success: function (results) {
-
-                    // show customer saved pop up
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Item saved successfully!',
-                        showConfirmButton: false,
-                        timer: 1500,
-                        iconColor: '#4dc94d'
-                    });
-
-                    // load the table
-                    loadItemTable();
-
-                    // clean the inputs values
-                    $("#codeItem").val("");
-                    $("#nameItem").val("");
-                    $("#priceItem").val("");
-                    $("#qtyItem").val("");
-
-                    // generate next item id
-                    autoGenerateItemId();
-
-                },
-
-                error: function (error) {
-                    console.log(error)
-                    showErrorAlert('Item not saved...')
-                }
-            });
-
-        }
+        })
 
     }
 

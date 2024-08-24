@@ -4,6 +4,8 @@ import {loadCustomerComboBoxValues} from "./orderController.js";
 import {loadItemComboBoxValues} from "./orderController.js";
 import {loadCustomerTable} from "./customerController.js";
 import {loadCustomersCount} from "./customerController.js";
+import {loadItemTable} from "./itemController.js";
+import {loadItemsCount} from "./itemController.js";
 
 // import arrays
 import {customers, items} from "../db/db.js";
@@ -11,8 +13,14 @@ import {customers, items} from "../db/db.js";
 // set all customer count to home page
 loadCustomersCount();
 
+// set all item count to home page
+loadItemsCount();
+
 // display all customers in customer table
 loadCustomerTable();
+
+// display all customers in customer table
+loadItemTable();
 
 
 // -------------------------- The start - when click navbar and some buttons --------------------------
@@ -43,6 +51,7 @@ $('#home-section').css({display: 'block'});
 $('#nav-home').on("click", function () {
     displayNonSections();
     loadCustomersCount();
+    loadItemsCount();
     $('#home-section').css({display: 'block'});
 });
 /* end home nav management */
