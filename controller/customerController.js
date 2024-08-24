@@ -27,6 +27,7 @@ export function loadCustomerTable() {
                     </tr>
                 `;
                 $('#customer-tbl-tbody').append(row);
+                $("#customer-tbl-tbody").css("font-weight", 600);
             });
         },
         error : function (error) {

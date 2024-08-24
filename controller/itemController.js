@@ -103,44 +103,57 @@ $("#item-save").on('click', () => {
         } else {
 
             // create an object - Object Literal
-            /*let item = {
+            let item = {
                 code: codeOfItem,
                 name: nameOfItem,
                 price: priceOfItem,
                 qty: qtyOfItem
-            }*/
+            }
 
+            // For testing
+            console.log("JS Object : " + item);
 
-            // create an object - Class Syntax
-            let item = new ItemModel(codeOfItem,nameOfItem,priceOfItem,qtyOfItem);
+            // Create JSON
+            // convert js object to JSON object
+            const jsonItem = JSON.stringify(item);
+            console.log("JSON Object : " + jsonItem);
 
+            $.ajax({
+                url: "http://localhost:8085/item",
+                type: "POST",
+                data: jsonItem,
+                headers: {"Content-Type": "application/json"},
 
-            // push to the array
-            items.push(item);
+                success: function (results) {
 
-            // load the table
-            loadItemTable();
+                    // show customer saved pop up
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Item saved successfully!',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        iconColor: '#4dc94d'
+                    });
 
-            // clean the inputs values
-            $("#codeItem").val("");
-            $("#nameItem").val("");
-            $("#priceItem").val("");
-            $("#qtyItem").val("");
+                    // load the table
+                    loadItemTable();
 
-            // generate next item id
-            autoGenerateItemId();
+                    // clean the inputs values
+                    $("#codeItem").val("");
+                    $("#nameItem").val("");
+                    $("#priceItem").val("");
+                    $("#qtyItem").val("");
 
-            // show item saved pop up
-            Swal.fire({
-                icon: 'success',
-                title: 'Item saved successfully!',
-                showConfirmButton: false,
-                timer: 1500,
-                iconColor: '#4dc94d'
+                    // generate next item id
+                    autoGenerateItemId();
+
+                },
+
+                error: function (error) {
+                    console.log(error)
+                    showErrorAlert('Item not saved...')
+                }
             });
-
-            // update the home page's item card
-            $("#item-count").html(items.length);
 
         }
 
@@ -171,7 +184,79 @@ $("#item-update").on('click', () => {
     var qtyOfItem = $("#qtyItem").val();        // item qty value
 
 
-    if (items.length !== 0) {
+    // check whether print those values
+    console.log("code: " , codeOfItem);
+    console.log("name: " , nameOfItem);
+    console.log("price: " , priceOfItem);
+    console.log("qty: " , qtyOfItem);
+
+
+    let itemValidated = checkItemValidation(codeOfItem,nameOfItem,priceOfItem,qtyOfItem);
+
+
+    if(itemValidated) {
+
+        // create an object - Object Literal
+        let item = {
+            code: codeOfItem,
+            name: nameOfItem,
+            price: priceOfItem,
+            qty: qtyOfItem
+        }
+
+
+        // For testing
+        console.log("JS Object : " + item);
+
+        // Create JSON
+        // convert js object to JSON object
+        const jsonItem = JSON.stringify(item);
+        console.log("JSON Object : " + jsonItem);
+
+
+        // ========= Ajax with JQuery =========
+
+        $.ajax({
+            url: "http://localhost:8085/item?code=" + codeOfItem,
+            type: "PUT",
+            data: jsonItem,
+            headers: { "Content-Type": "application/json" },
+
+            success : function (results) {
+
+                // show customer updated pop up
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Item updated successfully!',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    iconColor: '#4dc94d'
+                });
+
+                // load the table
+                loadItemTable();
+
+                // clean the inputs values
+                $("#codeItem").val("");
+                $("#nameItem").val("");
+                $("#priceItem").val("");
+                $("#qtyItem").val("");
+
+                // generate next item id
+                autoGenerateItemId();
+
+            },
+
+            error : function (error) {
+                console.log(error)
+                showErrorAlert('Item not updated...')
+            }
+        });
+
+    }
+
+
+    /*if (items.length !== 0) {
 
         items.map((item) => {
 
@@ -223,7 +308,7 @@ $("#item-update").on('click', () => {
 
     } else {
         showErrorAlert("First you need to add items ! Then you can update...");
-    }
+    }*/
 
 
     // ********** special **********
@@ -241,7 +326,43 @@ $("#item-delete").on('click', () => {
 
     var itemCode = $("#codeItem").val();
 
-    if (items.length !== 0) {
+    // Ajax with JQuery
+
+    $.ajax({
+        url: "http://localhost:8085/item?code=" + itemCode,
+        type: "DELETE",
+        success : function (results) {
+
+            // show customer deleted pop up
+            Swal.fire({
+                icon: 'success',
+                title: 'Item deleted successfully!',
+                showConfirmButton: false,
+                timer: 1500,
+                iconColor: '#4dc94d'
+            });
+
+            // load the table
+            loadItemTable();
+
+            // clean the inputs values
+            $("#codeItem").val("");
+            $("#nameItem").val("");
+            $("#priceItem").val("");
+            $("#qtyItem").val("");
+
+            // generate next item id
+            autoGenerateItemId();
+
+        },
+        error : function (error) {
+            console.log(error)
+            showErrorAlert('Student not deleted...')
+        }
+    });
+
+
+    /*if (items.length !== 0) {
 
         items.map((item) => {
 
@@ -295,7 +416,7 @@ $("#item-delete").on('click', () => {
 
     } else {
         showErrorAlert("First you need to add items ! Then you can delete...");
-    }
+    }*/
 
 });
 // -------------------------- The end - when click item delete button --------------------------
