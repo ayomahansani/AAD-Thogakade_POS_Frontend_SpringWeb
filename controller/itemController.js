@@ -15,7 +15,37 @@ var itemRecordIndex;
 // -------------------------- The start - item table loading --------------------------
 export function loadItemTable() {
 
-    $("#item-tbl-tbody").empty();
+    $.ajax({
+        url : "http://localhost:8085/item",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success : function (results) {
+            console.log(results)
+
+            // Clear the existing table body
+            $('#item-tbl-tbody').empty();
+
+            // Iterate over the results and append rows to the table
+            results.forEach(function(item) {
+                let row = `
+                    <tr>
+                        <td class="item-code-value">${item.id}</td>
+                        <td class="item-name-value">${item.name}</td>
+                        <td class="item-price-value">${item.address}</td>
+                        <td class="item-qty-value">${item.phone}</td>
+                    </tr>
+                `;
+                $('#item-tbl-tbody').append(row);
+                $("#item-tbl-tbody").css("font-weight", 600);
+            });
+        },
+        error : function (error) {
+            console.log(error)
+            alert('Not Get All Data...')
+        }
+    })
+
+
+    /*$("#item-tbl-tbody").empty();
 
     items.map((item, index) => {
 
@@ -31,7 +61,7 @@ export function loadItemTable() {
         $("#item-tbl-tbody").append(record);
         $("#item-tbl-tbody").css("font-weight", 600);
 
-    });
+    });*/
 }
 // -------------------------- The end - item table loading --------------------------
 
@@ -48,7 +78,41 @@ autoGenerateItemId();
 // -------------------------- The start - auto generate item id --------------------------
 function autoGenerateItemId() {
 
-    var itemLength = items.length;
+    $.ajax({
+        url : "http://localhost:8085/item",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success : function (results) {
+            console.log(results)
+
+            var itemLength = results.length;
+
+            console.log("Item length : " + itemLength);
+
+            if(itemLength !== 0 ) {
+
+                var currentItemCode = results[results.length-1].code;
+                var split = [];
+                split = currentItemCode.split("I0");
+                var id = parseInt(split[1]);
+                id++;
+                if(id < 10) {
+                    $("#codeItem").val("I00" + id);
+                }else{
+                    $("#codeItem").val("I0" + id);
+                }
+
+            } else {
+                $("#codeItem").val("I001");
+            }
+
+        },
+        error : function (error) {
+            console.log(error)
+            showErrorAlert('Not auto generated item code...')
+        }
+    })
+
+    /*var itemLength = items.length;
 
     if(itemLength !== 0 ) {
 
@@ -65,7 +129,7 @@ function autoGenerateItemId() {
 
     } else {
         $("#codeItem").val("I001");
-    }
+    }*/
 
 }
 // -------------------------- The end - auto generate item id --------------------------
