@@ -595,7 +595,32 @@ $("#item-tbl-tbody").on( 'click', 'tr', function () {
 // -------------------------- The start - when click view all item button --------------------------
 $("#viewAllItem").on('click', function () {
 
-    $("#all-items-tbl-tbody").empty();
+    $.ajax({
+        url : "http://localhost:8085/item",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success : function (results) {
+            console.log(results)
+
+            // Clear the existing table body
+            $('#all-items-tbl-tbody').empty();
+
+            // Iterate over the results and append rows to the table
+            results.forEach(function(item) {
+                let row = `
+                    <tr>
+                        <td>${item.name}</td>
+                    </tr>
+                `;
+                $('#all-items-tbl-tbody').append(row);
+            });
+        },
+        error : function (error) {
+            console.log(error)
+            alert('Can not get all items...')
+        }
+    })
+
+    /*$("#all-items-tbl-tbody").empty();
 
     items.map((item, index) => {
 
@@ -608,7 +633,7 @@ $("#viewAllItem").on('click', function () {
         $("#all-items-tbl-tbody").append(record);
         $("#all-items-tbl-tbody").css("font-weight", 600);
 
-    });
+    });*/
 
 });
 // -------------------------- The end - when click view all item button --------------------------
@@ -620,60 +645,71 @@ $("#item-search-btn").on('click', function () {
 
     var itemDetail = $("#searchItem").val();
 
-    if (items.length !== 0) {
+    $.ajax({
+        url : "http://localhost:8085/item",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success : function (results) {
 
-        for (let i=0; i<items.length; i++) {
+            if (results.length !== 0) {
 
-            if (items[i].code === itemDetail || items[i].name === itemDetail) {
+                for (let i=0; i<results.length; i++) {
 
-                $("#searchedItemCode").val(items[i].code);
-                $("#searchedItemName").val(items[i].name);
-                $("#searchedItemPrice").val(items[i].price);
-                $("#searchedItemQty").val(items[i].qty);
+                    if (results[i].code === itemDetail || results[i].name === itemDetail) {
+
+                        $("#searchedItemCode").val(results[i].code);
+                        $("#searchedItemName").val(results[i].name);
+                        $("#searchedItemPrice").val(results[i].price);
+                        $("#searchedItemQty").val(results[i].qty);
+
+                        $("#itemDetailsModalLabel").html("Item Details");
+
+                        return;
+                    }
+
+                }
+
+                if(itemDetail !== "") {
+
+                    showErrorAlert("Can't find item ! Try again...");
+
+                    $("#searchedItemCode").val("");
+                    $("#searchedItemName").val("");
+                    $("#searchedItemPrice").val("");
+                    $("#searchedItemQty").val("");
+
+                    $("#itemDetailsModalLabel").html("Item Details");
+
+                } else {
+
+                    showErrorAlert("Please enter item code or name to search !");
+
+                    $("#searchedItemCode").val("");
+                    $("#searchedItemName").val("");
+                    $("#searchedItemPrice").val("");
+                    $("#searchedItemQty").val("");
+
+                    $("#itemDetailsModalLabel").html("Item Details");
+
+                }
+
+
+            } else {
+
+                showErrorAlert("First you need to add items ! Then you can search...");
+
+                $("#searchedItemCode").val("");
+                $("#searchedItemName").val("");
+                $("#searchedItemPrice").val("");
+                $("#searchedItemQty").val("");
 
                 $("#itemDetailsModalLabel").html("Item Details");
-
-                return;
             }
 
+        },
+        error : function (error) {
+            console.log(error)
         }
-
-        if(itemDetail !== "") {
-
-            showErrorAlert("Can't find item ! Try again...");
-
-            $("#searchedItemCode").val("");
-            $("#searchedItemName").val("");
-            $("#searchedItemPrice").val("");
-            $("#searchedItemQty").val("");
-
-            $("#itemDetailsModalLabel").html("Item Details");
-
-        } else {
-
-            showErrorAlert("Please enter item code or name to search !");
-
-            $("#searchedItemCode").val("");
-            $("#searchedItemName").val("");
-            $("#searchedItemPrice").val("");
-            $("#searchedItemQty").val("");
-
-            $("#itemDetailsModalLabel").html("Item Details");
-
-        }
-
-    } else {
-
-        showErrorAlert("First you need to add items ! Then you can search...");
-
-        $("#searchedItemCode").val("");
-        $("#searchedItemName").val("");
-        $("#searchedItemPrice").val("");
-        $("#searchedItemQty").val("");
-
-        $("#itemDetailsModalLabel").html("Item Details");
-
-    }
+    })
 
 });
 // -------------------------- The end - when click item search button --------------------------
