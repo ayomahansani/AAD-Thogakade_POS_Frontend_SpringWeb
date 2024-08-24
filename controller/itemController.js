@@ -357,7 +357,7 @@ $("#item-delete").on('click', () => {
         },
         error : function (error) {
             console.log(error)
-            showErrorAlert('Student not deleted...')
+            showErrorAlert('Item not deleted...')
         }
     });
 

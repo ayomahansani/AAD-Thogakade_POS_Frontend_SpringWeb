@@ -431,7 +431,7 @@ $("#customer-delete").on('click', () => {
         },
         error : function (error) {
             console.log(error)
-            showErrorAlert('Student not deleted...')
+            showErrorAlert('Customer not deleted...')
         }
     });
 
