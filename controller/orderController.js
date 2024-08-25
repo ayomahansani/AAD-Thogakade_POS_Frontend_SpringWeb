@@ -91,24 +91,35 @@ export function autoGenerateOrderId(orderId) {
 
 
 // -------------------------- The start - load customer IDs to customer combo box --------------------------
-export function loadCustomerComboBoxValues(customerArray, customerComboBoxId) {
+export function loadCustomerComboBoxValues(customerComboBoxId) {
 
-    $(customerComboBoxId).empty();
+    $.ajax({
+        url: "http://localhost:8085/customer",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success: function (results) {
+            console.log(results)
 
-    $(customerComboBoxId).append($(`<option>`, {
-        text: "choose customer ID"
-    }));
+            $(customerComboBoxId).empty();
 
-    for (let i = 0; i < customerArray.length; i++) {
+            $(customerComboBoxId).append($(`<option>`, {
+                text: "choose customer ID"
+            }));
 
-        var cusId = customerArray[i].id;
+            for (let i = 0; i < results.length; i++) {
 
-        $(customerComboBoxId).append($(`<option>`, {
-            value: cusId,
-            text: cusId
-        }));
-    }
+                var cusId = results[i].id;
 
+                $(customerComboBoxId).append($(`<option>`, {
+                    value: cusId,
+                    text: cusId
+                }));
+            }
+
+        },
+        error: function (error) {
+            console.log(error)
+        }
+    })
 }
 // -------------------------- The end - load customer IDs to customer combo box --------------------------
 
@@ -116,7 +127,18 @@ export function loadCustomerComboBoxValues(customerArray, customerComboBoxId) {
 
 
 // -------------------------- The start - load item IDs to item combo box --------------------------
-export function loadItemComboBoxValues(itemArray, itemComboBoxId) {
+export function loadItemComboBoxValues(itemComboBoxId) {
+
+    $.ajax({
+        url : "http://localhost:8085/item",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success : function (results) {
+            $("#item-count").html(results.length);
+        },
+        error : function (error) {
+            console.log(error)
+        }
+    })
 
     $(itemComboBoxId).empty();
 

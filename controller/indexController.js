@@ -86,8 +86,8 @@ $('#nav-orders').on("click", function () {
 
     // ---- when click order nav link want to load customer IDs, item codes and autofill current date ----
     autoFillCurrentDate();
-    loadCustomerComboBoxValues(customers, "#customersIdComboBox");
-    loadItemComboBoxValues(items, "#itemsIdComboBox");
+    loadCustomerComboBoxValues("#customersIdComboBox");
+    loadItemComboBoxValues("#itemsIdComboBox");
 
 });
 /* end orders nav management */
