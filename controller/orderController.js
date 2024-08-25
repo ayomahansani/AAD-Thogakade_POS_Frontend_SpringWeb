@@ -133,28 +133,27 @@ export function loadItemComboBoxValues(itemComboBoxId) {
         url : "http://localhost:8085/item",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
-            $("#item-count").html(results.length);
+
+            $(itemComboBoxId).empty();
+
+            $(itemComboBoxId).append($(`<option>`, {
+                text: "choose item code"
+            }));
+
+            for (let i = 0; i < results.length; i++) {
+
+                var itemCode = results[i].code;
+
+                $(itemComboBoxId).append($(`<option>`, {
+                    value: itemCode,
+                    text: itemCode
+                }));
+            }
         },
         error : function (error) {
             console.log(error)
         }
     })
-
-    $(itemComboBoxId).empty();
-
-    $(itemComboBoxId).append($(`<option>`, {
-        text: "choose item code"
-    }));
-
-    for (let i = 0; i < itemArray.length; i++) {
-
-        var itemCode = itemArray[i].code;
-
-        $(itemComboBoxId).append($(`<option>`, {
-            value: itemCode,
-            text: itemCode
-        }));
-    }
 
 }
 // -------------------------- The end - load item IDs to item combo box --------------------------
