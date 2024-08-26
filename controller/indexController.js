@@ -16,6 +16,9 @@ loadCustomersCount();
 // set all item count to home page
 loadItemsCount();
 
+// set all order count to home page
+loadOrdersCount();
+
 // display all customers in customer table
 loadCustomerTable();
 

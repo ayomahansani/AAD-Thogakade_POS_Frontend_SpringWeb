@@ -68,21 +68,35 @@ $("#total").val("Rs:000.00");
 // -------------------------- The start - generate order id automatically --------------------------
 export function autoGenerateOrderId(orderId) {
 
-    console.log("currentOrderId: " + orderId);
+    $.ajax({
+        url : "http://localhost:8085/order",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success : function (results) {
 
-    if(orderId !== "") {
-        var split = [];
-        split = orderId.split("O0");
-        var id = Number.parseInt(split[1]);
-        id++;
-        if(id < 10) {
-            $("#orderId").val("O00" + id);
-        }else{
-            $("#orderId").val("O0" + id);
+            if(results.length !== 0){
+
+                orderId = results[results.length-1].orderId;
+                console.log("currentOrderId: " + orderId);
+
+                var split = [];
+                split = orderId.split("O0");
+                var id = Number.parseInt(split[1]);
+                id++;
+                if(id < 10) {
+                    $("#orderId").val("O00" + id);
+                }else{
+                    $("#orderId").val("O0" + id);
+                }
+
+            } else {
+                $("#orderId").val("O001");
+            }
+
+        },
+        error : function (error) {
+            console.log(error)
         }
-    } else {
-        $("#orderId").val("O001");
-    }
+    })
 
 }
 // -------------------------- The end - generate order id automatically --------------------------
@@ -286,7 +300,6 @@ export function loadOrdersCount() {
         url : "http://localhost:8085/order",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
-            // update the home page's order card
             $("#orders-count").html(results.length);
         },
         error : function (error) {
@@ -407,7 +420,7 @@ $("#addBtn").on('click', function () {
                 }
 
                 // load the add-to-cart table
-                //loadAddToCartTable();
+                loadAddToCartTable();
 
                 tempItems.push(results[itemRecordIndex]);     // push the chosen item to the temporary array called tempItems[]
                 results[itemRecordIndex].qty -= qtyOfItem;    // update the qtyOnHand of that chosen item in the items[] array
@@ -530,17 +543,15 @@ $("#purchaseBtn").on('click', function () {
 
             if (result.isConfirmed) {
 
-                /*let order = new OrderModel(orderId, date, customer, items, discount, total);*/
-
                 // create an object - Object Literal
                 let order = {
-                    idOfOrder: orderId,
-                    dateOfOrder: orderDate,
-                    idOfCustomer: customerId,
+                    orderId: orderId,
+                    orderDate: orderDate,
+                    customerId: customerId,
                     itemsOfOrder: chosenItems,
-                    totalOfOrder: orderTotal,
-                    discountOfOrder: orderDiscount,
-                    subTotalOfOrder:orderSubTotal
+                    totalPrice: orderTotal,
+                    discount: orderDiscount,
+                    subTotal:orderSubTotal
                 }
 
                 // For testing
@@ -616,7 +627,7 @@ $("#purchaseBtn").on('click', function () {
 
                     error: function (error) {
                         console.log(error)
-                        showErrorAlert('Customer not saved...')
+                        showErrorAlert('Order not placed...')
                     }
                 });
             }
