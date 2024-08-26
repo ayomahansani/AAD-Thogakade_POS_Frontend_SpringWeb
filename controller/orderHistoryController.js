@@ -2,7 +2,7 @@
 import {orders} from "../db/db.js";
 import {items} from "../db/db.js";
 import {loadItemTable} from "./itemController.js";
-import {autoGenerateOrderId} from "./orderController.js";
+import {addedItems, autoGenerateOrderId} from "./orderController.js";
 
 var orderRecordIndex;
 
@@ -13,22 +13,33 @@ var orderRecordIndex;
 function loadOrderHistoryTable() {
     $("#order-history-tbl-tbody").empty();
 
-    orders.map((item, index) => {
-        let record = `<tr>
-            <td> ${item.idOfOrder} </td>
-            <td> ${item.dateOfOrder} </td>
-            <td> ${item.idOfCustomer} </td>
-            <td class="items-of-order" style="display: none;">${JSON.stringify(item.itemsOfOrder)}</td>
-            <td> <i class="bi bi-eye-fill ml-3"></i> ${item.itemsOfOrder.length} </td>
-            <td> Rs: ${item.totalOfOrder} </td>
-            <td> ${item.discountOfOrder} % </td>
-            <td> Rs: ${item.subTotalOfOrder} </td>
+    $.ajax({
+        url : "http://localhost:8085/order",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success : function (results) {
+
+            results.map((order, index) => {
+                let record = `<tr>
+            <td> ${order.orderId} </td>
+            <td> ${order.orderDate} </td>
+            <td> ${order.customerId} </td>
+            <td class="items-of-order" style="display: none;">${JSON.stringify(addedItems)}</td>
+            <td> <i class="bi bi-eye-fill ml-3"></i> ${addedItems.length} </td>
+            <td> Rs: ${order.totalPrice} </td>
+            <td> ${order.discount} % </td>
+            <td> Rs: ${order.subTotal} </td>
             <td> <button type="button" class="btn btn-danger order-cancel-button">Cancel</button> </td>
         </tr>`;
-        $("#order-history-tbl-tbody").append(record);
-        $("#order-history-tbl-tbody").css("font-weight", 600);
-        $(".order-cancel-button").css("font-weight", 600);
-    });
+                $("#order-history-tbl-tbody").append(record);
+                $("#order-history-tbl-tbody").css("font-weight", 600);
+                $(".order-cancel-button").css("font-weight", 600);
+            });
+
+        },
+        error : function (error) {
+            console.log(error)
+        }
+    })
 }
 
 // -------------------------- The end - order history table loading --------------------------
