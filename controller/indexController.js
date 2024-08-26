@@ -1,5 +1,5 @@
 // import methods
-import {autoFillCurrentDate} from "./orderController.js";
+import {autoFillCurrentDate, loadOrdersCount} from "./orderController.js";
 import {loadCustomerComboBoxValues} from "./orderController.js";
 import {loadItemComboBoxValues} from "./orderController.js";
 import {loadCustomerTable} from "./customerController.js";
@@ -52,6 +52,7 @@ $('#nav-home').on("click", function () {
     displayNonSections();
     loadCustomersCount();
     loadItemsCount();
+    loadOrdersCount();
     $('#home-section').css({display: 'block'});
 });
 /* end home nav management */

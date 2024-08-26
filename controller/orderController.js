@@ -279,6 +279,26 @@ function loadAddToCartTable() {
 
 
 
+// -------------------------- The start - order's count loading --------------------------
+export function loadOrdersCount() {
+
+    $.ajax({
+        url : "http://localhost:8085/order",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success : function (results) {
+            // update the home page's order card
+            $("#orders-count").html(results.length);
+        },
+        error : function (error) {
+            console.log(error)
+        }
+    })
+}
+// -------------------------- The end - order's count loading --------------------------
+
+
+
+
 // -------------------------- The start - when click remove button want to call removeItem() function --------------------------
 $("#table-add-to-cart").on('click', function (event) {
 
@@ -513,7 +533,7 @@ $("#purchaseBtn").on('click', function () {
                 /*let order = new OrderModel(orderId, date, customer, items, discount, total);*/
 
                 // create an object - Object Literal
-                /*let order = {
+                let order = {
                     idOfOrder: orderId,
                     dateOfOrder: orderDate,
                     idOfCustomer: customerId,
@@ -521,71 +541,84 @@ $("#purchaseBtn").on('click', function () {
                     totalOfOrder: orderTotal,
                     discountOfOrder: orderDiscount,
                     subTotalOfOrder:orderSubTotal
-                }*/
-
-
-                // create an object - Class Syntax
-                let order = new OrderModel(orderId,orderDate,customerId,chosenItems,orderTotal,orderDiscount,orderSubTotal);
-
-
-                // push to the orders[] array
-                orders.push(order);
-
-                console.log(order);
-
-                // want to reset the forms
-                $("#order-section form").trigger('reset');
-
-                // want to load combobox again
-                loadItemComboBoxValues(items, "#itemsIdComboBox");
-                loadCustomerComboBoxValues(customers, "#customersIdComboBox");
-
-
-                // load the item table again, so we can see there was updated item table's item qty
-                loadItemTable();
-
-                // want to empty the addedItems[] array because order has done
-                addedItems = [];
-
-                // want to remove all items from cart
-                loadAddToCartTable()
-
-                // want to fill current date
-                autoFillCurrentDate();
-
-                // want to generate next order id
-                autoGenerateOrderId(orderId);
-
-                // order save pop up
-                if(!orderDiscount) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: `Rs: ${orderTotal}`,
-                        text: 'The Order has been placed!',
-                        background: '#fff1e0',
-                        width: '35em',
-                        confirmButtonColor: '#eac237',
-                        iconColor: '#4dc94d'
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'success',
-                        title: `Rs: ${orderSubTotal}`,
-                        text: 'The Order has been placed!',
-                        background: '#fff1e0',
-                        width: '35em',
-                        confirmButtonColor: '#eac237',
-                        iconColor: '#4dc94d'
-                    });
                 }
 
-                // finally want to fill total inputs like follow
-                $("#subTotal").val("Rs:000.00");
-                $("#total").val("Rs:000.00");
+                // For testing
+                console.log("JS Object : " + order);
 
-                // update the home page's order card
-                $("#orders-count").html(orders.length);
+                // Create JSON
+                // convert js object to JSON object
+                const jsonOrder = JSON.stringify(order);
+                console.log("JSON Object : " + jsonOrder);
 
+
+                // ========= Ajax with JQuery =========
+
+                $.ajax({
+                    url: "http://localhost:8085/order",
+                    type: "POST",
+                    data: jsonOrder,
+                    headers: {"Content-Type": "application/json"},
+
+                    success: function (results) {
+
+                        // want to reset the forms
+                        $("#order-section form").trigger('reset');
+
+                        // want to load combobox again
+                        loadItemComboBoxValues("#itemsIdComboBox");
+                        loadCustomerComboBoxValues("#customersIdComboBox");
+
+
+                        // load the item table again, so we can see there was updated item table's item qty
+                        loadItemTable();
+
+                        // want to empty the addedItems[] array because order has done
+                        addedItems = [];
+
+                        // want to remove all items from cart
+                        //loadAddToCartTable()
+
+                        // want to fill current date
+                        autoFillCurrentDate();
+
+                        // want to generate next order id
+                        autoGenerateOrderId(orderId);
+
+                        // order save pop up
+                        if(!orderDiscount) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: `Rs: ${orderTotal}`,
+                                text: 'The Order has been placed!',
+                                background: '#fff1e0',
+                                width: '35em',
+                                confirmButtonColor: '#eac237',
+                                iconColor: '#4dc94d'
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: `Rs: ${orderSubTotal}`,
+                                text: 'The Order has been placed!',
+                                background: '#fff1e0',
+                                width: '35em',
+                                confirmButtonColor: '#eac237',
+                                iconColor: '#4dc94d'
+                            });
+                        }
+
+                        // finally want to fill total inputs like follow
+                        $("#subTotal").val("Rs:000.00");
+                        $("#total").val("Rs:000.00");
+
+                    },
+
+                    error: function (error) {
+                        console.log(error)
+                        showErrorAlert('Customer not saved...')
+                    }
+                });
             }
         });
     }
