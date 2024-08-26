@@ -166,26 +166,38 @@ $("#customersIdComboBox").change(function () {
 
     var currentSelectionCustomerId = $(this).val();
 
-    for (let i = 0; i < customers.length; i++) {
+    $.ajax({
+        url: "http://localhost:8085/customer",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success: function (results) {
+            console.log(results)
 
-        if(customers[i].id === currentSelectionCustomerId) {
-            $("#cusId").val(customers[i].id);
-            $("#cusName").val(customers[i].name);
-            $("#cusAddress").val(customers[i].address);
-            $("#cusPhone").val(customers[i].phone);
+            for (let i = 0; i < results.length; i++) {
 
-            return;
+                if(results[i].id === currentSelectionCustomerId) {
+                    $("#cusId").val(results[i].id);
+                    $("#cusName").val(results[i].name);
+                    $("#cusAddress").val(results[i].address);
+                    $("#cusPhone").val(results[i].phone);
 
-        } else {
+                    return;
 
-            $("#cusId").val("");
-            $("#cusName").val("");
-            $("#cusAddress").val("");
-            $("#cusPhone").val("");
+                } else {
 
+                    $("#cusId").val("");
+                    $("#cusName").val("");
+                    $("#cusAddress").val("");
+                    $("#cusPhone").val("");
+
+                }
+
+            }
+
+        },
+        error: function (error) {
+            console.log(error)
         }
-
-    }
+    })
 
 });
 // ---------------- The end - when select a customer dropdown value , autofilled other inputs ----------------
@@ -198,26 +210,37 @@ $("#itemsIdComboBox").change(function () {
 
     var currentSelectionItemCode = $(this).val();
 
-    for (let i = 0; i < items.length; i++) {
+    $.ajax({
+        url : "http://localhost:8085/item",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success : function (results) {
 
-        if(items[i].code === currentSelectionItemCode) {
-            $("#itemCode").val(items[i].code);
-            $("#itemName").val(items[i].name);
-            $("#itemPrice").val(items[i].price);
-            $("#itemQtyOnH").val(items[i].qty);
+            for (let i = 0; i < results.length; i++) {
 
-            return;
+                if(results[i].code === currentSelectionItemCode) {
+                    $("#itemCode").val(results[i].code);
+                    $("#itemName").val(results[i].name);
+                    $("#itemPrice").val(results[i].price);
+                    $("#itemQtyOnH").val(results[i].qty);
 
-        } else {
+                    return;
 
-            $("#itemCode").val("");
-            $("#itemName").val("");
-            $("#itemPrice").val("");
-            $("#itemQtyOnH").val("");
+                } else {
 
+                    $("#itemCode").val("");
+                    $("#itemName").val("");
+                    $("#itemPrice").val("");
+                    $("#itemQtyOnH").val("");
+
+                }
+
+            }
+
+        },
+        error : function (error) {
+            console.log(error)
         }
-
-    }
+    })
 
 });
 // ---------------- The end - when select a customer dropdown value , autofilled other inputs ----------------
@@ -326,53 +349,59 @@ $("#addBtn").on('click', function () {
 
     if(codeOfItem !== "") {
 
-        // chosen item's index of items[] array
-        itemRecordIndex = items.findIndex(item => item.code === codeOfItem);
-        console.log(itemRecordIndex);
+        $.ajax({
+            url : "http://localhost:8085/item",   // request eka yanna one thana
+            type: "GET", // request eka mona vageda - type eka
+            success : function (results) {
 
-        // check the typed qty, equal or lower than qtyOnHand
-        if( !/^\d{1,10}$/.test($("#quantity").val()) || qtyOfItem > items[itemRecordIndex].qty || !qtyOfItem ) {
-            showErrorAlert("Please enter a valid qty..Need to be lower than or equal to qty on hand");
-            return;
-        }
+                // chosen item's index of items[] array
+                itemRecordIndex = results.findIndex(item => item.code === codeOfItem);
+                console.log(itemRecordIndex);
 
-        // check the chosen item, include to addedItems[] array and get index
-        let existingItem = addedItems.findIndex(item => item.code === codeOfItem);
-        console.log("index : " + existingItem);
+                // check the typed qty, equal or lower than qtyOnHand
+                if( !/^\d{1,10}$/.test($("#quantity").val()) || qtyOfItem > results[itemRecordIndex].qty || !qtyOfItem ) {
+                    showErrorAlert("Please enter a valid qty..Need to be lower than or equal to qty on hand");
+                    return;
+                }
 
-        if(existingItem < 0) {  // if addedItems[] array is empty, add a new object to array.
+                // check the chosen item, include to addedItems[] array and get index
+                let existingItem = addedItems.findIndex(item => item.code === codeOfItem);
+                console.log("index : " + existingItem);
 
-            // create an object - Object Literal
-            /*let addedItem = {
-                code: codeOfItem,
-                name: nameOfItem,
-                price: priceOfItem,
-                qty: qtyOfItem,
-                total: itemTotal
-            }*/
+                if(existingItem < 0) {  // if addedItems[] array is empty, add a new object to array.
 
+                    // create an object - Object Literal
+                    let addedItem = {
+                        code: codeOfItem,
+                        name: nameOfItem,
+                        price: priceOfItem,
+                        qty: qtyOfItem,
+                        total: itemTotal
+                    }
 
-            // create an object - Class Syntax
-            let addedItem = new ItemModel(codeOfItem,nameOfItem,priceOfItem,qtyOfItem,itemTotal);
+                    // push to the array
+                    addedItems.push(addedItem);
 
+                } else {    // if addedItems[] array is not empty, want to update qty.
+                    addedItems[existingItem].qty += qtyOfItem;
+                }
 
-            // push to the array
-            addedItems.push(addedItem);
+                // load the add-to-cart table
+                //loadAddToCartTable();
 
-        } else {    // if addedItems[] array is not empty, want to update qty.
-            addedItems[existingItem].qty += qtyOfItem;
-        }
+                tempItems.push(results[itemRecordIndex]);     // push the chosen item to the temporary array called tempItems[]
+                results[itemRecordIndex].qty -= qtyOfItem;    // update the qtyOnHand of that chosen item in the items[] array
+                $("#itemQtyOnH").val(results[itemRecordIndex].qty);   // update the qtyOnHand input of that chosen item in Select Item form
 
-        // load the add-to-cart table
-        loadAddToCartTable();
+                sum += itemTotal;   // update the total when add new items
 
-        tempItems.push(items[itemRecordIndex]);     // push the chosen item to the temporary array called tempItems[]
-        items[itemRecordIndex].qty -= qtyOfItem;    // update the qtyOnHand of that chosen item in the items[] array
-        $("#itemQtyOnH").val(items[itemRecordIndex].qty);   // update the qtyOnHand input of that chosen item in Select Item form
+                $("#total").val(`Rs: ${sum}`);
 
-        sum += itemTotal;   // update the total when add new items
-
-        $("#total").val(`Rs: ${sum}`);
+            },
+            error : function (error) {
+                console.log(error)
+            }
+        })
 
     } else {
         showErrorAlert("Please select an item / items to add to cart!");
