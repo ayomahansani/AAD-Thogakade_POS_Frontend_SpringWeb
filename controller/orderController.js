@@ -389,7 +389,7 @@ $("#addBtn").on('click', function () {
 
                 // chosen item's index of items[] array
                 itemRecordIndex = results.findIndex(item => item.code === codeOfItem);
-                console.log(itemRecordIndex);
+                console.log("itemRecordIndex : " + itemRecordIndex);
 
                 // check the typed qty, equal or lower than qtyOnHand
                 if( !/^\d{1,10}$/.test($("#quantity").val()) || qtyOfItem > results[itemRecordIndex].qty || !qtyOfItem ) {
@@ -399,7 +399,7 @@ $("#addBtn").on('click', function () {
 
                 // check the chosen item, include to addedItems[] array and get index
                 let existingItem = addedItems.findIndex(item => item.code === codeOfItem);
-                console.log("index : " + existingItem);
+                console.log("index of existingItem: " + existingItem);
 
                 if(existingItem < 0) {  // if addedItems[] array is empty, add a new object to array.
 
@@ -415,7 +415,7 @@ $("#addBtn").on('click', function () {
                     // push to the array
                     addedItems.push(addedItem);
 
-                } else {    // if addedItems[] array is not empty, want to update qty.
+                } else if (existingItem >= 0) {    // if addedItems[] array is not empty, want to update qty.
                     addedItems[existingItem].qty += qtyOfItem;
                 }
 
@@ -423,8 +423,10 @@ $("#addBtn").on('click', function () {
                 loadAddToCartTable();
 
                 tempItems.push(results[itemRecordIndex]);     // push the chosen item to the temporary array called tempItems[]
-                results[itemRecordIndex].qty -= qtyOfItem;    // update the qtyOnHand of that chosen item in the items[] array
-                $("#itemQtyOnH").val(results[itemRecordIndex].qty);   // update the qtyOnHand input of that chosen item in Select Item form
+                console.log("temp item" + tempItems)
+                tempItems[itemRecordIndex].qty -= qtyOfItem;    // update the qtyOnHand of that chosen item in the items[] array
+                console.log(tempItems[itemRecordIndex].qty);
+                $("#itemQtyOnH").val(tempItems[itemRecordIndex].qty);   // update the qtyOnHand input of that chosen item in Select Item form
 
                 sum += itemTotal;   // update the total when add new items
 
@@ -582,13 +584,14 @@ $("#purchaseBtn").on('click', function () {
 
 
                         // load the item table again, so we can see there was updated item table's item qty
+
                         loadItemTable();
 
                         // want to empty the addedItems[] array because order has done
                         addedItems = [];
 
                         // want to remove all items from cart
-                        //loadAddToCartTable()
+                        loadAddToCartTable()
 
                         // want to fill current date
                         autoFillCurrentDate();

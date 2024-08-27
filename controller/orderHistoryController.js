@@ -146,20 +146,30 @@ $("#order-history-tbl-tbody").on('click', 'tr', function () {
 
     let details = "/  ";
 
-    // get items 1 by 1 from an order and show them
-    orders[orderRecordIndex].itemsOfOrder.map((item) => {
-        details += " " + item.code + "  -  " + item.name + "  -  " + item.qty + "  /  ";
-    });
+    $.ajax({
+        url : "http://localhost:8085/order",   // request eka yanna one thana
+        type: "GET", // request eka mona vageda - type eka
+        success : function (results) {
 
-    // show the items of an order
-    Swal.fire({
-        title: 'Item Details',
-        text: details,
-        background: '#fff1e0',
-        width: '35em',
-        confirmButtonColor: '#eac237',
-        color: '#167216'
-    });
+            // get items 1 by 1 from an order and show them
+            results[orderRecordIndex].itemsOfOrder.map((item) => {
+                details += " " + item.code + "  -  " + item.name + "  -  " + item.qty + "  /  ";
+            });
 
+            // show the items of an order
+            Swal.fire({
+                title: 'Item Details',
+                text: details,
+                background: '#fff1e0',
+                width: '35em',
+                confirmButtonColor: '#eac237',
+                color: '#167216'
+            });
+
+        },
+        error : function (error) {
+            console.log(error)
+        }
+    })
 });
 // -------------------------- The end - when click a row of order history table --------------------------
