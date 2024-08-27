@@ -513,7 +513,6 @@ $("#cash").on('input', function () {
 
 // -------------------------- The start - save order when click purchase button of order page --------------------------
 $("#purchaseBtn").on('click', function () {
-
     sum = 0;
 
     var orderId = $("#orderId").val();
@@ -526,10 +525,9 @@ $("#purchaseBtn").on('click', function () {
 
     var chosenItems = addedItems;
 
-    let orderValidated = checkOrderValidation(customerId,chosenItems,orderTotal,orderDiscount,orderSubTotal,cash);
+    let orderValidated = checkOrderValidation(customerId, chosenItems, orderTotal, orderDiscount, orderSubTotal, cash);
 
-    if(orderValidated) {
-
+    if (orderValidated) {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -540,12 +538,9 @@ $("#purchaseBtn").on('click', function () {
             background: '#fff1e0',
             width: '35em',
             confirmButtonText: 'Yes, Place Order!'
-
         }).then((result) => {
-
             if (result.isConfirmed) {
-
-                // create an object - Object Literal
+                // Create an object - Object Literal
                 let order = {
                     orderId: orderId,
                     orderDate: orderDate,
@@ -553,91 +548,94 @@ $("#purchaseBtn").on('click', function () {
                     itemsOfOrder: chosenItems,
                     totalPrice: orderTotal,
                     discount: orderDiscount,
-                    subTotal:orderSubTotal
-                }
+                    subTotal: orderSubTotal
+                };
 
                 // For testing
                 console.log("JS Object : " + order);
 
                 // Create JSON
-                // convert js object to JSON object
                 const jsonOrder = JSON.stringify(order);
                 console.log("JSON Object : " + jsonOrder);
 
-
-                // ========= Ajax with JQuery =========
-
+                // Place the order
                 $.ajax({
                     url: "http://localhost:8085/order",
                     type: "POST",
                     data: jsonOrder,
-                    headers: {"Content-Type": "application/json"},
-
+                    headers: { "Content-Type": "application/json" },
                     success: function (results) {
 
-                        // want to reset the forms
-                        $("#order-section form").trigger('reset');
+                        // Update item quantities on the server after successfully placing the order
+                        let updatePromises = chosenItems.map(item => {
+                            return $.ajax({
+                                url: "http://localhost:8085/item?code=" + item.code,
+                                type: "PUT",
+                                data: JSON.stringify({
+                                    code: item.code,
+                                    name: item.name,
+                                    price: item.price,
+                                    qty: qtyOnHand - item.qty
+                                }),
+                                headers: { "Content-Type": "application/json" }
+                            });
+                        });
 
-                        // want to load combobox again
-                        loadItemComboBoxValues("#itemsIdComboBox");
-                        loadCustomerComboBoxValues("#customersIdComboBox");
+                        // Wait for all quantity updates to complete
+                        $.when.apply($, updatePromises).done(function () {
+                            // After all item updates are successful, proceed with UI updates
+                            // Reset the forms
+                            $("#order-section form").trigger('reset');
 
+                            // Load combobox values again
+                            loadItemComboBoxValues("#itemsIdComboBox");
+                            loadCustomerComboBoxValues("#customersIdComboBox");
 
-                        // load the item table again, so we can see there was updated item table's item qty
+                            // Load the item table
+                            loadItemTable();
 
-                        loadItemTable();
+                            // Empty the addedItems[] array because the order has been placed
+                            addedItems = [];
 
-                        // want to empty the addedItems[] array because order has done
-                        addedItems = [];
+                            // Remove all items from the cart
+                            loadAddToCartTable();
 
-                        // want to remove all items from cart
-                        loadAddToCartTable()
+                            // Fill current date
+                            autoFillCurrentDate();
 
-                        // want to fill current date
-                        autoFillCurrentDate();
+                            // Generate next order ID
+                            autoGenerateOrderId(orderId);
 
-                        // want to generate next order id
-                        autoGenerateOrderId(orderId);
-
-                        // order save pop up
-                        if(!orderDiscount) {
+                            // Show order confirmation
                             Swal.fire({
                                 icon: 'success',
-                                title: `Rs: ${orderTotal}`,
+                                title: orderDiscount ? `Rs: ${orderSubTotal}` : `Rs: ${orderTotal}`,
                                 text: 'The Order has been placed!',
                                 background: '#fff1e0',
                                 width: '35em',
                                 confirmButtonColor: '#eac237',
                                 iconColor: '#4dc94d'
                             });
-                        } else {
-                            Swal.fire({
-                                icon: 'success',
-                                title: `Rs: ${orderSubTotal}`,
-                                text: 'The Order has been placed!',
-                                background: '#fff1e0',
-                                width: '35em',
-                                confirmButtonColor: '#eac237',
-                                iconColor: '#4dc94d'
-                            });
-                        }
 
-                        // finally want to fill total inputs like follow
-                        $("#subTotal").val("Rs:000.00");
-                        $("#total").val("Rs:000.00");
+                            // Finally, reset total inputs
+                            $("#subTotal").val("Rs:000.00");
+                            $("#total").val("Rs:000.00");
 
+                        }).fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log("Error updating item quantities: ", textStatus, errorThrown);
+                            showErrorAlert('Failed to update item quantities.');
+                        });
                     },
-
                     error: function (error) {
-                        console.log(error)
-                        showErrorAlert('Order not placed...')
+                        console.log(error);
+                        showErrorAlert('Order not placed...');
                     }
                 });
             }
         });
     }
-
 });
+
 // -------------------------- The end - save order when click purchase button of order page --------------------------
 
 
