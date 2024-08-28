@@ -1,19 +1,13 @@
-// import arrays
-import {orders} from "../db/db.js";
-import {customers} from "../db/db.js";
-import {items} from "../db/db.js";
-
-// import classes
-import {OrderModel} from "../model/orderModel.js";
-import {ItemModel} from "../model/itemModel.js";
-
 // import methods
 import {loadItemTable} from "./itemController.js";
 import {showErrorAlert} from "./customerController.js";
 
 // create temporary arrays
-export let addedItems = [];
+let addedItems = [];
 let tempItems = [];
+
+// Global variable to store last order items
+export let lastOrderItems = [];
 
 
 let sum = 0;
@@ -572,6 +566,9 @@ $("#purchaseBtn").on('click', function () {
                 // Create JSON
                 const jsonOrder = JSON.stringify(order);
                 console.log("JSON Object : " + jsonOrder);
+
+                // Store items temporarily
+                lastOrderItems = [...chosenItems]; // Save a copy of chosenItems
 
                 var quantity;
 

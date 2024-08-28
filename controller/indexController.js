@@ -1,29 +1,31 @@
 // import methods
-import {autoFillCurrentDate, loadOrdersCount} from "./orderController.js";
+import {autoFillCurrentDate, lastOrderItems, loadOrdersCount} from "./orderController.js";
 import {loadCustomerComboBoxValues} from "./orderController.js";
 import {loadItemComboBoxValues} from "./orderController.js";
 import {loadCustomerTable} from "./customerController.js";
 import {loadCustomersCount} from "./customerController.js";
 import {loadItemTable} from "./itemController.js";
 import {loadItemsCount} from "./itemController.js";
+import {loadOrderHistoryTable} from "./orderHistoryController.js";
 
-// import arrays
-import {customers, items} from "../db/db.js";
 
-// set all customer count to home page
+// set all customer count to the home page's customer card
 loadCustomersCount();
 
-// set all item count to home page
+// set all item count to home page's item card
 loadItemsCount();
 
-// set all order count to home page
+// set all order count to home page's order card
 loadOrdersCount();
 
 // display all customers in customer table
 loadCustomerTable();
 
-// display all customers in customer table
+// display all items in item table
 loadItemTable();
+
+// display all orders in order history table
+loadOrderHistoryTable(lastOrderItems);
 
 
 // -------------------------- The start - when click navbar and some buttons --------------------------
@@ -94,6 +96,7 @@ $('#nav-orders').on("click", function () {
     autoFillCurrentDate();
     loadCustomerComboBoxValues("#customersIdComboBox");
     loadItemComboBoxValues("#itemsIdComboBox");
+    loadOrderHistoryTable(lastOrderItems);
 
 });
 /* end orders nav management */

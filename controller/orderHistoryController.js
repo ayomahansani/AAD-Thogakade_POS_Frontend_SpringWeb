@@ -2,7 +2,7 @@
 import {orders} from "../db/db.js";
 import {items} from "../db/db.js";
 import {loadItemTable} from "./itemController.js";
-import {addedItems, autoGenerateOrderId} from "./orderController.js";
+import {lastOrderItems, autoGenerateOrderId} from "./orderController.js";
 
 var orderRecordIndex;
 
@@ -10,7 +10,11 @@ var orderRecordIndex;
 
 
 // -------------------------- The start - order history table loading --------------------------
-function loadOrderHistoryTable() {
+export function loadOrderHistoryTable(lastOrderItems) {
+
+    console.log(lastOrderItems)
+    console.log(lastOrderItems.length);
+
     $("#order-history-tbl-tbody").empty();
 
     $.ajax({
@@ -19,17 +23,19 @@ function loadOrderHistoryTable() {
         success : function (results) {
 
             results.map((order, index) => {
+
                 let record = `<tr>
-            <td> ${order.orderId} </td>
-            <td> ${order.orderDate} </td>
-            <td> ${order.customerId} </td>
-            <td class="items-of-order" style="display: none;">${JSON.stringify(addedItems)}</td>
-            <td> <i class="bi bi-eye-fill ml-3"></i> ${addedItems.length} </td>
-            <td> Rs: ${order.totalPrice} </td>
-            <td> ${order.discount} % </td>
-            <td> Rs: ${order.subTotal} </td>
-            <td> <button type="button" class="btn btn-danger order-cancel-button">Cancel</button> </td>
-        </tr>`;
+                    <td> ${order.orderId} </td>
+                    <td> ${order.orderDate} </td>
+                    <td> ${order.customerId} </td>
+                    <td class="items-of-order" style="display: none;">${JSON.stringify(lastOrderItems)}</td>
+                    <td> <i class="bi bi-eye-fill ml-3"></i> ${lastOrderItems.length} </td>
+                    <td> Rs: ${order.totalPrice} </td>
+                    <td> ${order.discount} % </td>
+                    <td> Rs: ${order.subTotal} </td>
+                    <td> <button type="button" class="btn btn-danger order-cancel-button">Cancel</button> </td>
+                </tr>`;
+
                 $("#order-history-tbl-tbody").append(record);
                 $("#order-history-tbl-tbody").css("font-weight", 600);
                 $(".order-cancel-button").css("font-weight", 600);
@@ -56,7 +62,7 @@ $("#table-order-history").on('click', function (event) {
         orderedItems = JSON.parse(row.querySelector('.items-of-order').textContent.trim());
 
         // Call the function
-        cancelOrder(orderId, orderedItems);
+        //cancelOrder(orderId, orderedItems);
     }
 });
 // -------------------------- The end - when click remove button want to call cancelOrder() function --------------------------
@@ -85,39 +91,60 @@ function cancelOrder(orderId, orderedItems) {
 
         if (result.isConfirmed) {
 
-            // Remove the canceled order from the 'orders' array
-            let orderIndex = orders.findIndex(item => item.idOfOrder === orderId);
-            orders.splice(orderIndex,1);
+            $.ajax({
+                url : "http://localhost:8085/order",   // request eka yanna one thana
+                type: "GET", // request eka mona vageda - type eka
+                success : function (results) {
 
+                    // Remove the canceled order from the 'orders' array
+                    let orderIndex = results.findIndex(item => item.idOfOrder === orderId);
+                    results.splice(orderIndex,1);
 
-            // Iterate through the ordered items to update the 'items' array
-            orderedItems.forEach(orderedItem => {
+                    return $.ajax({
+                        url: "http://localhost:8085/item",
+                        type: "GET",
+                        success : function (items) {
 
-                let itemIndex = items.findIndex(item => item.code === orderedItem._code);
-                console.log("itemIndex" + itemIndex);
+                            // Iterate through the ordered items to update the 'items' array
+                            orderedItems.forEach(orderedItem => {
 
-                // Check if the item exists in the 'items' array
-                if (itemIndex !== -1) {
+                                let itemIndex = items.findIndex(item => item.code === orderedItem._code);
+                                console.log("itemIndex" + itemIndex);
 
-                    // Increment the quantity of the item in the 'items' array
-                    items[itemIndex].qty += orderedItem._qty;
+                                // Check if the item exists in the 'items' array
+                                if (itemIndex !== -1) {
 
+                                    // Increment the quantity of the item in the 'items' array
+                                    items[itemIndex].qty += orderedItem._qty;
+
+                                }
+                            });
+
+                            // Load the order history table
+                            loadOrderHistoryTable();
+
+                            // Load the item table
+                            loadItemTable();
+
+                            if(results.length === 0){
+                                autoGenerateOrderId("");
+                            } else {
+                                let lastOrderId = results[results.length - 1].idOfOrder;
+                                autoGenerateOrderId(lastOrderId);
+                            }
+
+                        },
+                        error : function (error) {
+                            console.log(error)
+                        }
+
+                    });
+                },
+                error : function (error) {
+                    console.log(error)
                 }
-            });
+            })
 
-
-            // Load the order history table
-            loadOrderHistoryTable();
-
-            // Load the item table
-            loadItemTable();
-
-            if(orders.length === 0){
-                autoGenerateOrderId("");
-            } else {
-                let lastOrderId = orders[orders.length - 1].idOfOrder;
-                autoGenerateOrderId(lastOrderId);
-            }
         }
 
     });
@@ -129,7 +156,7 @@ function cancelOrder(orderId, orderedItems) {
 
 // -------------------------- The start - when click view order history button --------------------------
 $("#viewBtn").on('click', function () {
-    loadOrderHistoryTable();
+    loadOrderHistoryTable(lastOrderItems);
 });
 // -------------------------- The end - when click view order history button --------------------------
 
@@ -137,7 +164,7 @@ $("#viewBtn").on('click', function () {
 
 
 // -------------------------- The start - when click a row of order history table --------------------------
-$("#order-history-tbl-tbody").on('click', 'tr', function () {
+/*$("#order-history-tbl-tbody").on('click', 'tr', function () {
 
     let index = $(this).index();
     orderRecordIndex = index;  // assign current row index to recordIndex variable
@@ -171,5 +198,5 @@ $("#order-history-tbl-tbody").on('click', 'tr', function () {
             console.log(error)
         }
     })
-});
+});*/
 // -------------------------- The end - when click a row of order history table --------------------------
