@@ -423,7 +423,7 @@ $("#addBtn").on('click', function () {
                 loadAddToCartTable();
 
                 tempItems.push(results[itemRecordIndex]);     // push the chosen item to the temporary array called tempItems[]
-                console.log("temp item" + tempItems)
+                console.log("temp item" + tempItems);
                 tempItems[itemRecordIndex].qty -= qtyOfItem;    // update the qtyOnHand of that chosen item in the items[] array
                 console.log(tempItems[itemRecordIndex].qty);
                 $("#itemQtyOnH").val(tempItems[itemRecordIndex].qty);   // update the qtyOnHand input of that chosen item in Select Item form
@@ -558,6 +558,8 @@ $("#purchaseBtn").on('click', function () {
                 const jsonOrder = JSON.stringify(order);
                 console.log("JSON Object : " + jsonOrder);
 
+                var quantity;
+
                 // Place the order
                 $.ajax({
                     url: "http://localhost:8085/order",
@@ -568,18 +570,38 @@ $("#purchaseBtn").on('click', function () {
 
                         // Update item quantities on the server after successfully placing the order
                         let updatePromises = chosenItems.map(item => {
-                            return $.ajax({
-                                url: "http://localhost:8085/item?code=" + item.code,
-                                type: "PUT",
-                                data: JSON.stringify({
-                                    code: item.code,
-                                    name: item.name,
-                                    price: item.price,
-                                    qty: qtyOnHand - item.qty
-                                }),
-                                headers: { "Content-Type": "application/json" }
-                            });
+
+                            $.ajax({
+                                url : "http://localhost:8085/item",   // request eka yanna one thana
+                                type: "GET", // request eka mona vageda - type eka
+                                success : function (results) {
+
+                                    for (let i = 0; i < results.length; i++) {
+
+                                        if(results[i].code === item.code){
+                                            quantity = results[i].qty;
+                                        }
+                                    }
+
+                                    return $.ajax({
+                                        url: "http://localhost:8085/item?code=" + item.code,
+                                        type: "PUT",
+                                        data: JSON.stringify({
+                                            code: item.code,
+                                            name: item.name,
+                                            price: item.price,
+                                            qty: quantity - item.qty
+                                        }),
+                                        headers: { "Content-Type": "application/json" }
+                                    });
+
+                                },
+                                error : function (error) {
+                                    console.log(error)
+                                }
+                            })
                         });
+
 
                         // Wait for all quantity updates to complete
                         $.when.apply($, updatePromises).done(function () {
@@ -635,7 +657,6 @@ $("#purchaseBtn").on('click', function () {
         });
     }
 });
-
 // -------------------------- The end - save order when click purchase button of order page --------------------------
 
 

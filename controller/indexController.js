@@ -76,6 +76,8 @@ $('#nav-customers').on("click", function () {
 /* start items nav management */
 $('#nav-items').on("click", function () {
     displayNonSections();
+    // Load the item table
+    loadItemTable();
     $('#item-section').css({display: 'block'});
 });
 /* end items nav management */
@@ -182,6 +184,11 @@ $('#go-item-page').on("click", function () {
 $('#go-orders-page').on("click", function () {
     displayNonSections();
     $('#order-section').css({display: 'block'});
+
+    // ---- when click order nav link want to load customer IDs, item codes and autofill current date ----
+    autoFillCurrentDate();
+    loadCustomerComboBoxValues("#customersIdComboBox");
+    loadItemComboBoxValues("#itemsIdComboBox");
 
     $('ul span.active').removeClass('active');
     $('ul li:nth-child(4) span').addClass('active');
