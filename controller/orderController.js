@@ -513,6 +513,7 @@ $("#cash").on('input', function () {
 
 // -------------------------- The start - save order when click purchase button of order page --------------------------
 $("#purchaseBtn").on('click', function () {
+
     sum = 0;
 
     var orderId = $("#orderId").val();
@@ -590,7 +591,7 @@ $("#purchaseBtn").on('click', function () {
                                             code: item.code,
                                             name: item.name,
                                             price: item.price,
-                                            qty: quantity - item.qty
+                                            qty: quantity - item.qty // update the item quantity
                                         }),
                                         headers: { "Content-Type": "application/json" }
                                     });
