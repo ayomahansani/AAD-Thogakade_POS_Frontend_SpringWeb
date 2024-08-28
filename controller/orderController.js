@@ -332,6 +332,7 @@ $("#table-add-to-cart").on('click', function (event) {
 
 // -------------------------- The start - when click remove button of add-to-cart table --------------------------
 function removeItem(addedItemRecord, qty, unitPrice) {
+
     console.log(addedItemRecord);
     console.log(qty);
     console.log(unitPrice);
@@ -343,25 +344,38 @@ function removeItem(addedItemRecord, qty, unitPrice) {
         if(addedItemRecord === item.code) {
             addedItems.splice(index,1);
 
-            items.filter((item,index) => {
+            $.ajax({
+                url : "http://localhost:8085/item",   // request eka yanna one thana
+                type: "GET", // request eka mona vageda - type eka
+                success : function (results) {
 
-                if(item.code === addedItemRecord) {
-                    item.qty += qty;
-                    loadItemComboBoxValues(items, "#itemsIdComboBox");
+                    results.filter((item,index) => {
 
-                    $("#itemCode").val("");
-                    $("#itemName").val("");
-                    $("#itemPrice").val("");
-                    $("#itemQtyOnH").val("");
-                    $("#quantity").val("");
+                        if(item.code === addedItemRecord) {
 
-                    sum -= total;
-                    $("#total").val(`Rs: ${sum}`);
+                            item.qty += qty;
+                            loadItemComboBoxValues("#itemsIdComboBox");
+
+                            $("#itemCode").val("");
+                            $("#itemName").val("");
+                            $("#itemPrice").val("");
+                            $("#itemQtyOnH").val("");
+                            $("#quantity").val("");
+
+                            sum -= total;
+
+                            $("#total").val(`Rs: ${sum}`);
+                        }
+                    });
+
+                    // load the table
+                    loadAddToCartTable();
+
+                },
+                error : function (error) {
+                    console.log(error)
                 }
-            });
-
-            // load the table
-            loadAddToCartTable();
+            })
         }
     });
 }
