@@ -1,6 +1,4 @@
-// import array
-import {orders} from "../db/db.js";
-import {items} from "../db/db.js";
+
 import {loadItemTable} from "./itemController.js";
 import {lastOrderItems, autoGenerateOrderId} from "./orderController.js";
 
