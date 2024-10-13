@@ -7,7 +7,7 @@ var customerRecordIndex;
 export function loadCustomerTable() {
 
     $.ajax({
-        url : "http://localhost:8085/customer",   // request eka yanna one thana
+        url : "http://localhost:8086/thogakadePOSBackend/api/v1/customers",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
             console.log(results)
@@ -63,7 +63,7 @@ export function loadCustomerTable() {
 export function loadCustomersCount() {
 
     $.ajax({
-        url : "http://localhost:8085/customer",   // request eka yanna one thana
+        url : "http://localhost:8086/thogakadePOSBackend/api/v1/customers",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
             $("#customer-count").html(results.length);
@@ -89,7 +89,7 @@ autoGenerateCustomerId();
 function autoGenerateCustomerId() {
 
     $.ajax({
-        url : "http://localhost:8085/customer",   // request eka yanna one thana
+        url : "http://localhost:8086/thogakadePOSBackend/api/v1/customers",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
             console.log(results)
@@ -180,7 +180,7 @@ $("#customer-save").on('click', () => {
                 // ========= Ajax with JQuery =========
 
                 $.ajax({
-                    url: "http://localhost:8085/customer",
+                    url: "http://localhost:8086/thogakadePOSBackend/api/v1/customers",
                     type: "POST",
                     data: jsonCustomer,
                     headers: {"Content-Type": "application/json"},
@@ -232,7 +232,7 @@ function isDuplicateCustomerId(id) {
 
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: "http://localhost:8085/customer",
+            url: "http://localhost:8086/thogakadePOSBackend/api/v1/customers",
             type: "GET",
             success: function (results) {
                 const isDuplicated = results.some(customer => customer.id === id);
@@ -292,7 +292,7 @@ $("#customer-update").on('click', () => {
             // ========= Ajax with JQuery =========
 
             $.ajax({
-                url: "http://localhost:8085/customer?id=" + idOfCustomer,
+                url: "http://localhost:8086/thogakadePOSBackend/api/v1/customers/" + idOfCustomer,
                 type: "PUT",
                 data: jsonCustomer,
                 headers: { "Content-Type": "application/json" },
@@ -403,7 +403,7 @@ $("#customer-delete").on('click', () => {
     // Ajax with JQuery
 
     $.ajax({
-        url: "http://localhost:8085/customer?id=" + cusId,
+        url: "http://localhost:8086/thogakadePOSBackend/api/v1/customers/" + cusId,
         type: "DELETE",
         success : function (results) {
 
@@ -594,7 +594,7 @@ $("#customer-tbl-tbody").on( 'click', 'tr', function () {
 $("#viewAllCus").on('click', function () {
 
     $.ajax({
-        url : "http://localhost:8085/customer",   // request eka yanna one thana
+        url : "http://localhost:8086/thogakadePOSBackend/api/v1/customers",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
             console.log(results)
@@ -610,6 +610,7 @@ $("#viewAllCus").on('click', function () {
                     </tr>
                 `;
                 $('#all-customers-tbl-tbody').append(row);
+                $("#customer-tbl-tbody").css("font-weight", 600);
             });
         },
         error : function (error) {
@@ -645,7 +646,7 @@ $("#customer-search-btn").on('click', function () {
     var customerDetail = $("#searchCustomer").val();
 
     $.ajax({
-        url : "http://localhost:8085/customer",   // request eka yanna one thana
+        url : "http://localhost:8086/thogakadePOSBackend/api/v1/customers",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
 

@@ -63,7 +63,7 @@ $("#total").val("Rs:000.00");
 export function autoGenerateOrderId(orderId) {
 
     $.ajax({
-        url : "http://localhost:8085/order",   // request eka yanna one thana
+        url : "http://localhost:8086/thogakadePOSBackend/api/v1/orders",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
 
@@ -102,7 +102,7 @@ export function autoGenerateOrderId(orderId) {
 export function loadCustomerComboBoxValues(customerComboBoxId) {
 
     $.ajax({
-        url: "http://localhost:8085/customer",   // request eka yanna one thana
+        url: "http://localhost:8086/thogakadePOSBackend/api/v1/customers",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success: function (results) {
             console.log(results)
@@ -138,7 +138,7 @@ export function loadCustomerComboBoxValues(customerComboBoxId) {
 export function loadItemComboBoxValues(itemComboBoxId) {
 
     $.ajax({
-        url : "http://localhost:8085/item",   // request eka yanna one thana
+        url : "http://localhost:8086/thogakadePOSBackend/api/v1/items",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
 
@@ -175,7 +175,7 @@ $("#customersIdComboBox").change(function () {
     var currentSelectionCustomerId = $(this).val();
 
     $.ajax({
-        url: "http://localhost:8085/customer",   // request eka yanna one thana
+        url: "http://localhost:8086/thogakadePOSBackend/api/v1/customers",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success: function (results) {
             console.log(results)
@@ -219,7 +219,7 @@ $("#itemsIdComboBox").change(function () {
     var currentSelectionItemCode = $(this).val();
 
     $.ajax({
-        url : "http://localhost:8085/item",   // request eka yanna one thana
+        url : "http://localhost:8086/thogakadePOSBackend/api/v1/items",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
 
@@ -291,7 +291,7 @@ function loadAddToCartTable() {
 export function loadOrdersCount() {
 
     $.ajax({
-        url : "http://localhost:8085/order",   // request eka yanna one thana
+        url : "http://localhost:8086/thogakadePOSBackend/api/v1/orders",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
             $("#orders-count").html(results.length);
@@ -330,6 +330,7 @@ function removeItem(addedItemRecord, qty, unitPrice) {
     console.log(addedItemRecord);
     console.log(qty);
     console.log(unitPrice);
+
     var total = unitPrice * qty ;
 
 
@@ -339,7 +340,7 @@ function removeItem(addedItemRecord, qty, unitPrice) {
             addedItems.splice(index,1);
 
             $.ajax({
-                url : "http://localhost:8085/item",   // request eka yanna one thana
+                url : "http://localhost:8086/thogakadePOSBackend/api/v1/items",   // request eka yanna one thana
                 type: "GET", // request eka mona vageda - type eka
                 success : function (results) {
 
@@ -391,7 +392,7 @@ $("#addBtn").on('click', function () {
     if(codeOfItem !== "") {
 
         $.ajax({
-            url : "http://localhost:8085/item",   // request eka yanna one thana
+            url : "http://localhost:8086/thogakadePOSBackend/api/v1/items",   // request eka yanna one thana
             type: "GET", // request eka mona vageda - type eka
             success : function (results) {
 
@@ -527,6 +528,7 @@ $("#purchaseBtn").on('click', function () {
     var orderId = $("#orderId").val();
     var orderDate = $("#orderDate").val();
     var customerId = $("#cusId").val();
+
     var orderTotal = Number.parseFloat($("#total").val().slice(4));
     var orderDiscount = Number.parseFloat($("#discount").val());
     var orderSubTotal = Number.parseFloat($("#subTotal").val().slice(4));
@@ -549,15 +551,12 @@ $("#purchaseBtn").on('click', function () {
             confirmButtonText: 'Yes, Place Order!'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Create an object - Object Literal
+
+                // Create an order object - Object Literal
                 let order = {
                     orderId: orderId,
                     orderDate: orderDate,
                     customerId: customerId,
-                    itemsOfOrder: chosenItems,
-                    totalPrice: orderTotal,
-                    discount: orderDiscount,
-                    subTotal: orderSubTotal
                 };
 
                 // For testing
@@ -572,19 +571,88 @@ $("#purchaseBtn").on('click', function () {
 
                 var quantity;
 
-                // Place the order
+                //// Place the order
                 $.ajax({
-                    url: "http://localhost:8085/order",
+                    url: "http://localhost:8086/thogakadePOSBackend/api/v1/orders",
                     type: "POST",
                     data: jsonOrder,
                     headers: { "Content-Type": "application/json" },
                     success: function (results) {
 
-                        // Update item quantities on the server after successfully placing the order
+                        //// Want to insert order details to the OrderDetails table
+
+                        // create an orderDetail object - Object Literal
+                        let orderDetail = {
+                            order_id: orderId,
+                            item_code: chosenItems,
+                            totalPrice: orderTotal,
+                            discount: orderDiscount,
+                            subTotal: orderSubTotal
+                        };
+
+                        // For testing
+                        console.log("JS Object : " + orderDetail);
+
+                        // Create JSON
+                        const jsonOrderDetail = JSON.stringify(orderDetail);
+                        console.log("JSON Object : " + jsonOrderDetail);
+
+                        $.ajax({
+                            url: "http://localhost:8086/thogakadePOSBackend/api/v1/items",
+                            type: "POST",
+                            data: jsonItem,
+                            headers: {"Content-Type": "application/json"},
+
+                            success: function (results) {
+
+                                // show customer saved pop up
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Item saved successfully!',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    iconColor: '#4dc94d'
+                                });
+
+                                // load the table
+                                loadItemTable();
+
+                                // clean the inputs values
+                                $("#codeItem").val("");
+                                $("#nameItem").val("");
+                                $("#priceItem").val("");
+                                $("#qtyItem").val("");
+
+                                // generate next item id
+                                autoGenerateItemId();
+
+                            },
+
+                            error: function (error) {
+                                console.log(error)
+                                showErrorAlert('Item not saved...')
+                            }
+                        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        //// Update item quantities on the server after successfully placing the order
+
                         let updatePromises = chosenItems.map(item => {
 
                             $.ajax({
-                                url : "http://localhost:8085/item",   // request eka yanna one thana
+                                url : "http://localhost:8086/thogakadePOSBackend/api/v1/items",   // request eka yanna one thana
                                 type: "GET", // request eka mona vageda - type eka
                                 success : function (results) {
 
@@ -596,7 +664,7 @@ $("#purchaseBtn").on('click', function () {
                                     }
 
                                     return $.ajax({
-                                        url: "http://localhost:8085/item?code=" + item.code,
+                                        url: "http://localhost:8086/thogakadePOSBackend/api/v1/items/" + item.code,
                                         type: "PUT",
                                         data: JSON.stringify({
                                             code: item.code,

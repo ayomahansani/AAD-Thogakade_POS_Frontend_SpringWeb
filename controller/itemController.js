@@ -11,7 +11,7 @@ var itemRecordIndex;
 export function loadItemTable() {
 
     $.ajax({
-        url : "http://localhost:8085/item",   // request eka yanna one thana
+        url : "http://localhost:8086/thogakadePOSBackend/api/v1/items",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
             console.log(results)
@@ -67,7 +67,7 @@ export function loadItemTable() {
 export function loadItemsCount() {
 
     $.ajax({
-        url : "http://localhost:8085/item",   // request eka yanna one thana
+        url : "http://localhost:8086/thogakadePOSBackend/api/v1/items",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
             $("#item-count").html(results.length);
@@ -93,7 +93,7 @@ autoGenerateItemId();
 function autoGenerateItemId() {
 
     $.ajax({
-        url : "http://localhost:8085/item",   // request eka yanna one thana
+        url : "http://localhost:8086/thogakadePOSBackend/api/v1/items",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
             console.log(results)
@@ -199,7 +199,7 @@ $("#item-save").on('click', () => {
                 console.log("JSON Object : " + jsonItem);
 
                 $.ajax({
-                    url: "http://localhost:8085/item",
+                    url: "http://localhost:8086/thogakadePOSBackend/api/v1/items",
                     type: "POST",
                     data: jsonItem,
                     headers: {"Content-Type": "application/json"},
@@ -252,7 +252,7 @@ function isDuplicateItemCode(code) {
 
     return new Promise((resolve, reject) => {
         $.ajax({
-            url: "http://localhost:8085/item",
+            url: "http://localhost:8086/thogakadePOSBackend/api/v1/items",
             type: "GET",
             success: function (results) {
                 const isDuplicated = results.some(item => item.code === code);
@@ -314,7 +314,7 @@ $("#item-update").on('click', () => {
         // ========= Ajax with JQuery =========
 
         $.ajax({
-            url: "http://localhost:8085/item?code=" + codeOfItem,
+            url: "http://localhost:8086/thogakadePOSBackend/api/v1/items/" + codeOfItem,
             type: "PUT",
             data: jsonItem,
             headers: { "Content-Type": "application/json" },
@@ -426,7 +426,7 @@ $("#item-delete").on('click', () => {
     // Ajax with JQuery
 
     $.ajax({
-        url: "http://localhost:8085/item?code=" + itemCode,
+        url: "http://localhost:8086/thogakadePOSBackend/api/v1/items/" + itemCode,
         type: "DELETE",
         success : function (results) {
 
@@ -614,7 +614,7 @@ $("#item-tbl-tbody").on( 'click', 'tr', function () {
 $("#viewAllItem").on('click', function () {
 
     $.ajax({
-        url : "http://localhost:8085/item",   // request eka yanna one thana
+        url : "http://localhost:8086/thogakadePOSBackend/api/v1/items",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
             console.log(results)
@@ -664,7 +664,7 @@ $("#item-search-btn").on('click', function () {
     var itemDetail = $("#searchItem").val();
 
     $.ajax({
-        url : "http://localhost:8085/item",   // request eka yanna one thana
+        url : "http://localhost:8086/thogakadePOSBackend/api/v1/items",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
 
