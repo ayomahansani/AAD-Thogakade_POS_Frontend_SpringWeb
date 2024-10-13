@@ -14,7 +14,7 @@ export function loadItemTable() {
         url : "http://localhost:8086/thogakadePOSBackend/api/v1/items",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
-            console.log(results)
+            //console.log(results)
 
             // Clear the existing table body
             $('#item-tbl-tbody').empty();
@@ -630,6 +630,7 @@ $("#viewAllItem").on('click', function () {
                     </tr>
                 `;
                 $('#all-items-tbl-tbody').append(row);
+                $("#all-items-tbl-tbody").css("font-weight", 600);
             });
         },
         error : function (error) {

@@ -610,7 +610,7 @@ $("#viewAllCus").on('click', function () {
                     </tr>
                 `;
                 $('#all-customers-tbl-tbody').append(row);
-                $("#customer-tbl-tbody").css("font-weight", 600);
+                $("#all-customers-tbl-tbody").css("font-weight", 600);
             });
         },
         error : function (error) {
