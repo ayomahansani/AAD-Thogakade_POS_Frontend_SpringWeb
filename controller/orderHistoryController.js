@@ -16,7 +16,7 @@ export function loadOrderHistoryTable(lastOrderItems) {
     $("#order-history-tbl-tbody").empty();
 
     $.ajax({
-        url : "http://localhost:8085/order",   // request eka yanna one thana
+        url : "http://localhost:8086/thogakadePOSBackend/api/v1/orders",   // request eka yanna one thana
         type: "GET", // request eka mona vageda - type eka
         success : function (results) {
 
@@ -45,7 +45,6 @@ export function loadOrderHistoryTable(lastOrderItems) {
         }
     })
 }
-
 // -------------------------- The end - order history table loading --------------------------
 
 
