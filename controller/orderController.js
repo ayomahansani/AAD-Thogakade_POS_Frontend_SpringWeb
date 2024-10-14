@@ -1,6 +1,8 @@
 // import methods
 import {loadItemTable} from "./itemController.js";
 import {showErrorAlert} from "./customerController.js";
+import {loadOrderHistoryTable} from "./orderHistoryController.js";
+
 
 // create temporary arrays
 let addedItems = [];
@@ -557,6 +559,7 @@ $("#purchaseBtn").on('click', function () {
                     orderId: orderId,
                     orderDate: orderDate,
                     customerId: customerId,
+                    orderedItems: chosenItems
                 };
 
                 // For testing
@@ -581,74 +584,50 @@ $("#purchaseBtn").on('click', function () {
 
                         //// Want to insert order details to the OrderDetails table
 
-                        // create an orderDetail object - Object Literal
-                        let orderDetail = {
-                            order_id: orderId,
-                            item_code: chosenItems,
-                            totalPrice: orderTotal,
-                            discount: orderDiscount,
-                            subTotal: orderSubTotal
-                        };
+                        chosenItems.map(item => {
 
-                        // For testing
-                        console.log("JS Object : " + orderDetail);
+                            // create an orderDetail object - Object Literal
+                            let orderDetail = {
+                                totalPrice: orderTotal,
+                                discount: orderDiscount,
+                                subTotal: orderSubTotal,
+                                order_id: orderId,
+                                item_code: item.code
+                            };
 
-                        // Create JSON
-                        const jsonOrderDetail = JSON.stringify(orderDetail);
-                        console.log("JSON Object : " + jsonOrderDetail);
+                            // For testing
+                            console.log("JS Object : " + orderDetail);
 
-                        $.ajax({
-                            url: "http://localhost:8086/thogakadePOSBackend/api/v1/items",
-                            type: "POST",
-                            data: jsonItem,
-                            headers: {"Content-Type": "application/json"},
+                            // Create JSON
+                            const jsonOrderDetail = JSON.stringify(orderDetail);
+                            console.log("JSON Object : " + jsonOrderDetail);
 
-                            success: function (results) {
+                            $.ajax({
+                                url: "http://localhost:8086/thogakadePOSBackend/api/v1/orderDetails",
+                                type: "POST",
+                                data: jsonOrderDetail,
+                                headers: {"Content-Type": "application/json"},
 
-                                // show customer saved pop up
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Item saved successfully!',
-                                    showConfirmButton: false,
-                                    timer: 1500,
-                                    iconColor: '#4dc94d'
-                                });
+                                success: function (results) {
 
-                                // load the table
-                                loadItemTable();
+                                    console.log("order details saved...");
 
-                                // clean the inputs values
-                                $("#codeItem").val("");
-                                $("#nameItem").val("");
-                                $("#priceItem").val("");
-                                $("#qtyItem").val("");
+                                    // load the table
+                                    loadOrderHistoryTable();
 
-                                // generate next item id
-                                autoGenerateItemId();
+                                },
 
-                            },
+                                error: function (error) {
+                                    console.log(error)
+                                    showErrorAlert('order details not saved...')
+                                }
+                            });
 
-                            error: function (error) {
-                                console.log(error)
-                                showErrorAlert('Item not saved...')
-                            }
-                        });
-
-
-
-
-
-
-
-
-
-
-
+                        })
 
 
 
                         //// Update item quantities on the server after successfully placing the order
-
                         let updatePromises = chosenItems.map(item => {
 
                             $.ajax({
@@ -682,9 +661,9 @@ $("#purchaseBtn").on('click', function () {
                             })
                         });
 
-
                         // Wait for all quantity updates to complete
                         $.when.apply($, updatePromises).done(function () {
+
                             // After all item updates are successful, proceed with UI updates
                             // Reset the forms
                             $("#order-section form").trigger('reset');
@@ -727,6 +706,18 @@ $("#purchaseBtn").on('click', function () {
                             console.log("Error updating item quantities: ", textStatus, errorThrown);
                             showErrorAlert('Failed to update item quantities.');
                         });
+
+                        /*// Show order confirmation
+                        Swal.fire({
+                            icon: 'success',
+                            title: orderDiscount ? `Rs: ${orderSubTotal}` : `Rs: ${orderTotal}`,
+                            text: 'The Order has been placed!',
+                            background: '#fff1e0',
+                            width: '35em',
+                            confirmButtonColor: '#eac237',
+                            iconColor: '#4dc94d'
+                        });*/
+
                     },
                     error: function (error) {
                         console.log(error);
