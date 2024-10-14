@@ -591,8 +591,8 @@ $("#purchaseBtn").on('click', function () {
                                 totalPrice: orderTotal,
                                 discount: orderDiscount,
                                 subTotal: orderSubTotal,
-                                order_id: orderId,
-                                item_code: item.code
+                                orderId: orderId,
+                                itemCode: item.code
                             };
 
                             // For testing
@@ -613,7 +613,7 @@ $("#purchaseBtn").on('click', function () {
                                     console.log("order details saved...");
 
                                     // load the table
-                                    loadOrderHistoryTable();
+                                    //loadOrderHistoryTable();
 
                                 },
 
