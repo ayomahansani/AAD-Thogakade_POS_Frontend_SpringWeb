@@ -16,20 +16,25 @@ export function loadOrderHistoryTable() {
         url: "http://localhost:8086/thogakadePOSBackend/api/v1/orders",
         type: "GET",
         success: function (results) {
+
             const orderDisplayed = new Set(); // To keep track of displayed orders
 
             results.map((order) => {
+
                 $.ajax({
                     url: "http://localhost:8086/thogakadePOSBackend/api/v1/orderDetails/" + order.orderId,
                     type: "GET",
                     success: function (records) {
+
                         // Check if the order has already been displayed
                         if (!orderDisplayed.has(order.orderId)) {
+
                             // Add to the set to mark it as displayed
                             orderDisplayed.add(order.orderId);
 
                             // Assuming all records for a single order are the same for total, discount, subtotal
                             if (records.length > 0) {
+
                                 const orderDetails = records[0]; // Take the first record for details
 
                                 let record = `<tr>
@@ -44,6 +49,7 @@ export function loadOrderHistoryTable() {
                                 </tr>`;
 
                                 $("#order-history-tbl-tbody").append(record);
+                                $("#order-history-tbl-tbody").css("font-weight", 600);
                             }
                         }
                     },
