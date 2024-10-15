@@ -1,6 +1,6 @@
 
 import {loadItemTable} from "./itemController.js";
-import {lastOrderItems, autoGenerateOrderId} from "./orderController.js";
+import {autoGenerateOrderId} from "./orderController.js";
 
 var orderRecordIndex;
 
@@ -8,42 +8,55 @@ var orderRecordIndex;
 
 
 // -------------------------- The start - order history table loading --------------------------
-export function loadOrderHistoryTable(lastOrderItems) {
-
-    console.log(lastOrderItems)
-    console.log(lastOrderItems.length);
+export function loadOrderHistoryTable() {
 
     $("#order-history-tbl-tbody").empty();
 
     $.ajax({
-        url : "http://localhost:8086/thogakadePOSBackend/api/v1/orders",   // request eka yanna one thana
-        type: "GET", // request eka mona vageda - type eka
-        success : function (results) {
+        url: "http://localhost:8086/thogakadePOSBackend/api/v1/orders",
+        type: "GET",
+        success: function (results) {
+            const orderDisplayed = new Set(); // To keep track of displayed orders
 
-            results.map((order, index) => {
+            results.map((order) => {
+                $.ajax({
+                    url: "http://localhost:8086/thogakadePOSBackend/api/v1/orderDetails/" + order.orderId,
+                    type: "GET",
+                    success: function (records) {
+                        // Check if the order has already been displayed
+                        if (!orderDisplayed.has(order.orderId)) {
+                            // Add to the set to mark it as displayed
+                            orderDisplayed.add(order.orderId);
 
-                let record = `<tr>
-                    <td> ${order.orderId} </td>
-                    <td> ${order.orderDate} </td>
-                    <td> ${order.customerId} </td>
-                    <td class="items-of-order" style="display: none;">${JSON.stringify(lastOrderItems)}</td>
-                    <td> <i class="bi bi-eye-fill ml-3"></i> ${lastOrderItems.length} </td>
-                    <td> Rs: ${order.totalPrice} </td>
-                    <td> ${order.discount} % </td>
-                    <td> Rs: ${order.subTotal} </td>
-                    <td> <button type="button" class="btn btn-danger order-cancel-button">Cancel</button> </td>
-                </tr>`;
+                            // Assuming all records for a single order are the same for total, discount, subtotal
+                            if (records.length > 0) {
+                                const orderDetails = records[0]; // Take the first record for details
 
-                $("#order-history-tbl-tbody").append(record);
-                $("#order-history-tbl-tbody").css("font-weight", 600);
-                $(".order-cancel-button").css("font-weight", 600);
+                                let record = `<tr>
+                                    <td> ${order.orderId} </td>
+                                    <td> ${order.orderDate} </td>
+                                    <td> ${order.customerId} </td>
+                                    <td> <i class="bi bi-eye-fill ml-3"></i> ${records.length} </td>
+                                    <td> Rs: ${orderDetails.totalPrice.toFixed(2)} </td>
+                                    <td> ${orderDetails.discount} % </td>
+                                    <td> Rs: ${orderDetails.subTotal.toFixed(2)} </td>
+                                    <td> <button type="button" class="btn btn-danger order-cancel-button">Cancel</button> </td>
+                                </tr>`;
+
+                                $("#order-history-tbl-tbody").append(record);
+                            }
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
             });
-
         },
-        error : function (error) {
-            console.log(error)
+        error: function (error) {
+            console.log(error);
         }
-    })
+    });
 }
 // -------------------------- The end - order history table loading --------------------------
 
@@ -153,7 +166,7 @@ function cancelOrder(orderId, orderedItems) {
 
 // -------------------------- The start - when click view order history button --------------------------
 $("#viewBtn").on('click', function () {
-    loadOrderHistoryTable(lastOrderItems);
+    loadOrderHistoryTable();
 });
 // -------------------------- The end - when click view order history button --------------------------
 
